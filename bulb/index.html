@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulb</title>
+    <link rel="stylesheet" href="./style.css">
+   
+</head>
+<body class="body">
+    <div class="bulb-container">
+        <div class="wire"></div>
+        <div class="connection"></div>
+        <div class="socket-top"></div>
+        <div class="socket-bottom"></div>
+        <div class="socket-back"></div>
+        <div class="bulb-top "></div>
+        <div class="bulb-bottom "></div>
+    </div>
+
+    <div class="switch-container">
+        <div class="switch-cover">
+            <div class="screw"></div>
+            <div class="switch "></div>
+            <div class="screw"></div>
+        </div>
+    </div>
+
+
+
+
+
+     <script>
+        let isOpen = false;
+
+        let page_body = document.getElementsByClassName('.body');
+
+        let bulb_switch = document.querySelector('.switch');
+        let bulb_top = document.querySelector('.bulb-top');
+        let bulb_bottom = document.querySelector('.bulb-bottom');
+
+        bulb_switch.addEventListener('click', function (){
+            if(isOpen){
+                bulb_switch.classList.remove('on');
+                bulb_top.classList.remove('isOn');
+                bulb_bottom.classList.remove('isOn');
+            }else{
+                bulb_switch.classList.add('on');
+                bulb_top.classList.add('isOn');
+                bulb_bottom.classList.add('isOn');
+            }
+            isOpen = !isOpen;
+            
+        })
+    </script>
+
+</body>
+</html>

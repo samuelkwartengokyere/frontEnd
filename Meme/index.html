@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Generator</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <h3>random meme generator</h3>
+        <div class="meme-container">
+
+        </div>
+    </div>
+
+
+    <script>
+        let meme = document.querySelector('.meme-container');
+        async function randomMemeGenerator() {
+            let res = await fetch('https://meme-api.com/gimme');
+            console.log(res);
+
+            let json = await res.json();
+            console.log(json);
+
+            let url = json.url;
+            console.log(url);
+
+
+            meme.style.backgroundImage = `url("${url}")`;
+            meme.style.backgroundSize = 'contain';
+            meme.style.backgroundPosition = 'center';
+            meme.style.backgroundRepeat = 'no-repeat';
+
+            
+        } 
+        randomMemeGenerator();
+        let timer = setInterval(randomMemeGenerator, 2000);
+
+
+        meme.addEventListener('mouseover', function(){
+            clearInterval(timer);
+        })
+
+        meme.addEventListener('mouseleave', function(){
+            timer = setInterval(randomMemeGenerator, 2000);
+        })
+    </script>
+</body>
+</html>

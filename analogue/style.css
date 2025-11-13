@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+h1{
+    text-transform: capitalize;
+    margin: 5rem 0 10rem 0;
+    color: rgb(134, 134, 134);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.clock{
+    height: 30rem;
+    width: 30rem;
+    background-image: url('./images.png');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.clock::before{
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    position:absolute;
+    z-index: 100;
+}
+
+.hour, .minute, .second{
+    
+    /* background: red;
+    border-radius: 50%; */
+    display:flex;
+    justify-content: center;
+    position: absolute;
+}
+
+.hour{
+    width:13rem;
+    height: 13rem;
+    
+}
+.hour::before{
+    content: "";
+    height: 50%;
+    width: 6px;
+    background: green;
+    border-radius: 10px;
+}
+
+
+.minute{
+    width:15rem;
+    height: 15rem;
+}
+.minute::before{
+    content: "";
+    height: 50%;
+    width: 4px;
+    background-color: blue;
+    border-radius: 10px;
+}
+
+.second{
+    width:17rem;
+    height: 17rem;
+}
+.second::before{
+    content: "";
+    height: 50%;
+    width: 2px;
+    background-color: red;
+    border-radius: 10px;
+}

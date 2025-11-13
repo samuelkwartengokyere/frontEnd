@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="slider">
+        <div class="slide" style="display: block;">
+            <img src="./511154-1920x1080.jpg" alt="">
+        </div>
+        <div class="slide">
+            <img src="./ac_iv_black_flag-wallpaper-1680x1050.jpg" alt="">
+        </div>
+        <div class="slide">
+            <img src="./aciii_7-wallpaper-1920x1080.jpg" alt="">
+        </div>
+
+        <div class="btn prev"> < </div>
+        <div class="btn next"> > </div>
+    </div>
+</body>
+
+<script>
+    let currentSlide = 0;
+
+    let slides = document.querySelector(".slide");
+    let nextBtn = document.querySelector(".next");
+    let prevBtn = document.querySelector('.prev');
+
+    nextBtn.addEventListener('click', function(){
+        let nextSlide = (currentSlide + 1)%slides.length;
+
+        // slides[currentSlide].style.display = "none";
+        slides[nextSlide].style.display = "block";
+        // currentSlide = nextSlide;
+
+        console.log('I am here!!!!!')
+    })
+
+
+
+
+
+
+</script>
+</html>

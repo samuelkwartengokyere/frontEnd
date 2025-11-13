@@ -1,0 +1,139 @@
+body{
+    padding: 0;
+    margin:0;
+    background-color: rgb(49, 49, 49);
+    height: 100vh;
+    display:flex;
+    justify-content: center;
+}
+
+/*styling switch*/
+.switch-container{
+    width: 20%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.switch-cover{
+    height: 140px;
+    width: 90px;
+    background: grey;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0px 0px 5px darkgrey;
+}
+.screw{
+    width: 6px;
+    height: 6px;
+    background-color: darkgrey;
+    border-radius: 4px;
+}
+.switch{
+    height: 90px;
+    width: 60px;
+    background: linear-gradient(darkgrey, grey);
+    border-top:1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 5px solid darkgrey;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.switch:hover{
+    cursor: pointer;
+}
+
+.on{
+    background: linear-gradient(grey, darkgrey);
+    border-top:5px solid darkgrey;
+    border-bottom:1px solid black;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+
+/*styiling the bulb*/
+
+.bulb-container{
+    height: 100vh;
+    width: 40%;
+}
+
+.wire{
+    width: 16px;
+    height: 230px;
+    background: grey;
+    margin: 0 auto;
+}
+.connection{
+    width: 22px;
+    height: 13px;
+    background-color: dimgrey;
+    margin: 0 auto;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    margin-top: -5px;
+}
+
+.socket-top{
+    width: 80px;
+    height: 30px;
+    background-color: dimgrey;
+    margin: 0 auto;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.socket-bottom{
+    width:80px;
+    height: 50px;
+    background-color: dimgrey;
+    margin: 0 auto;
+}
+.socket-back{
+    width: 80px;
+    height: 19px;
+    background-color: lightgrey;
+    margin:0 auto;
+    border-radius: 50%;
+    margin-top: -12px;
+    opacity: 0.3;
+}
+
+.bulb-top{
+    width: 73px;
+    height: 40px;
+    background-color: rgb(236, 234, 234);
+    margin:0 auto;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-top: -32px;
+    transition: .3s ease-in-out;
+}
+
+.bulb-bottom{
+    width: 200px;
+    height: 200px;
+    background-color: rgb(236, 234, 234);
+    margin:0 auto;
+    margin-top: -7px;
+    border-radius: 50%;
+    opacity: 0.8;
+    transition: .6s ease-in-out;
+}
+
+.isOn{
+    box-shadow: 0px 4px 500px 50px lightyellow;
+    background-color: rgb(246, 250, 30);
+ 
+}
+
+.bodyOn{
+    background-color: lightyellow;
+}

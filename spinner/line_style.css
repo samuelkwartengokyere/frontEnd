@@ -1,0 +1,52 @@
+body{
+    margin:0;
+    padding:0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+svg{
+    height: 200px;
+    width: 200px;
+    animation: line-bg 1.6s ease-in-out infinite;
+}
+
+@keyframes line-bg{
+    0%{
+        background-image:linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../trial/spinner/2014_the_amazing_spider_man_2-1920x1080.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: whitesmoke;
+        transform: scaleY(-1);
+    }
+    100%{
+        background-image:linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),url('../trial/spinner/2014_the_amazing_spider_man_2-1920x1080.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: scaleY(1);
+    }
+}
+
+line{
+    animation: line-show 1.6s ease-in-out infinite;
+}
+
+@keyframes line-show{
+    0%{
+        stroke-dasharray: 10, 200;
+        stroke-dashoffset: 0;
+    }
+    50%{
+         stroke-dasharray: 90, 200;
+        stroke-dashoffset: -120;
+    }
+    100%{
+         stroke-dasharray: 90, 200;
+        stroke-dashoffset: -200;
+    }
+}

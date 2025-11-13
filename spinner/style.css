@@ -1,0 +1,54 @@
+body{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap{
+    height: 200px;
+    width: 200px;
+   
+    /* background-color: whitesmoke; */
+    animation: rotate 1.6s  infinite;
+}
+
+@keyframes rotate{
+    100%{
+        transform: rotate(360deg);
+         background-image: url('../nike3.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    }
+    
+}
+
+svg{
+    height: 200px;
+    width: 200px;
+}
+
+.circular{
+    /* stroke-dasharray: 100, 30;
+    stroke-dashoffset: -200;
+    transition: .7s ease-in-out; */
+    animation:  circular-show 1.6s infinite;
+}
+
+@keyframes circular-show{
+    0%{
+        stroke-dasharray: 20, 100;
+        stroke-dashoffset: 0;
+    }
+    50%{
+        stroke-dasharray: 170, 100;
+        stroke-dashoffset: -260;
+    }
+    100%{
+        stroke-dasharray: 170, 100;
+        stroke-dashoffset: -510;
+        stroke: blue;
+    }
+}
