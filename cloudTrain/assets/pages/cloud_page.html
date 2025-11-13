@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CloudComputing Skills Lab - 12-Week Cloud Training</title>
+
+  <!-- Google Fonts: Poppins for modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fbfd;
+      color: #333;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Loading animation
+    .loading-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #002f6c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .loading-animation.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-spinner {
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+
+    .spinner-circle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 3px solid transparent;
+      border-top: 3px solid #007bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-spinner .logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      color: white;
+    } */
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: transparent;
+      z-index: 1000;
+    }
+
+    .scroll-progress-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(to right, #004aad, #007bff);
+      transition: width 0.3s ease;
+    }
+
+    /* Animation keyframes */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from { 
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to { 
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Animation classes */
+    .animate-fade-in {
+      opacity: 0;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .animate-slide-up {
+      opacity: 0;
+      animation: slideUp 0.8s ease forwards;
+    }
+
+    .animate-scale-in {
+      opacity: 0;
+      animation: scaleIn 0.8s ease forwards;
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .animate-pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
+    .delay-5 { animation-delay: 1s; }
+    .delay-6 { animation-delay: 1.2s; }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Header with gradient */
+    header {
+      background: linear-gradient(135deg, #004aad, #007bff);
+      color: white;
+      text-align: center;
+      padding: 4rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('../images/cloud.jpg') no-repeat center;
+      background-size: cover;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      z-index: 1;
+      position: relative;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    header p {
+      font-size: 1.4rem;
+      opacity: 0.95;
+      margin-top: 0.5rem;
+      z-index: 1;
+      position: relative;
+    }
+
+    /* Floating clouds in header */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .cloud-1 {
+      width: 120px;
+      height: 40px;
+      top: 20%;
+      left: 10%;
+      animation: float 15s ease-in-out infinite;
+    }
+
+    .cloud-2 {
+      width: 80px;
+      height: 30px;
+      top: 60%;
+      right: 15%;
+      animation: float 12s ease-in-out infinite reverse;
+    }
+
+    .cloud-3 {
+      width: 100px;
+      height: 35px;
+      bottom: 15%;
+      left: 20%;
+      animation: float 18s ease-in-out infinite;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 0;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #0056b3;
+      font-weight: 600;
+      font-size: 1.8rem;
+      margin-bottom: 1.3rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: #007bff;
+      margin-top: 8px;
+      transition: width 0.5s ease;
+    }
+
+    section:hover h2::after {
+      width: 100px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      font-size: 1.1rem;
+      color: #444;
+      transition: transform 0.3s ease;
+    }
+
+    ul li:hover {
+      transform: translateX(5px);
+    }
+
+    ul li i {
+      color: #007bff;
+      margin-right: 10px;
+      background: #e3f2fd;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 0.9rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    ul li:hover i {
+      transform: scale(1.2);
+      background: #007bff;
+      color: white;
+    }
+
+    /* .fa-envelope{
+      font-size: 25px;
+      z-index: -1;
+      text-align: center;
+    } */
+
+    /* Highlight Section */
+    .highlight {
+      text-align: center;
+      background: #e3f2fd;
+      padding: 2.8rem;
+      border-radius: 14px;
+      margin: 2.5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .highlight::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+      z-index: 0;
+    }
+
+    @keyframes shine {
+      0% { left: -50%; }
+      100% { left: 100%; }
+    }
+
+    .btn {
+      display: inline-block;
+      background: #007bff;
+      color: white;
+      padding: 1rem 2.2rem;
+      font-size: 1.2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 1rem 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.7s ease;
+      z-index: -1;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3);
+    }
+
+    .info-box {
+      background: #f0f7ff;
+      padding: 1.6rem;
+      border-radius: 10px;
+      border-left: 5px solid #007bff;
+      margin: 1.5rem 0;
+      font-size: 1.1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .info-box:hover {
+      transform: translateX(5px);
+    }
+
+    /* Roadmap Section */
+    .roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      padding-left: 3rem;
+    }
+
+    .roadmap::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #007bff;
+      z-index: 0;
+    }
+
+    .roadmap-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #f8fdff;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      border: 1px solid #e0f0ff;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .roadmap-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+    }
+
+    .roadmap-item::before {
+      content: '';
+      position: absolute;
+      left: -34px;
+      width: 20px;
+      height: 20px;
+      background: #007bff;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .roadmap-item:hover::before {
+      transform: scale(1.2);
+      background: #0056b3;
+    }
+
+    .roadmap-item h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: #0056b3;
+      font-weight: 600;
+    }
+
+    .roadmap-item p {
+      margin: 0;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: #002f6c;
+      color: #ddd;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center;
+      background-size: cover;
+      opacity: 0.05;
+      z-index: 0;
+    }
+
+    footer p{
+      color:#fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer a {
+      color: #64b5f6;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .social-links {
+      margin: 1rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .social-links a {
+      font-size: 1.4rem;
+      color: #fff;
+      margin: 0 10px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .social-links a:hover {
+      color: #007bff;
+      transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+      header p {
+        font-size: 1.1rem;
+      }
+      .container {
+        width: 95%;
+        padding: 2rem 0;
+      }
+      section {
+        padding: 1.8rem;
+      }
+      .roadmap {
+        padding-left: 2rem;
+      }
+      .roadmap::before {
+        left: 12px;
+      }
+      .roadmap-item::before {
+        left: -26px;
+      }
+      .btn {
+        padding: 0.8rem 1.6rem;
+        font-size: 1rem;
+      }
+      
+      .cloud {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading animation -->
+  <!-- <div class="loading-animation">
+    <div class="loading-spinner">
+      <div class="spinner-circle"></div>
+      <div class="logo"><i class="fas fa-cloud"></i></div>
+    </div>
+  </div> -->
+
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress">
+    <div class="scroll-progress-bar"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    
+    <h1 class="animate-slide-up">JonaTech Consult</h1>
+    <p class="animate-slide-up delay-1">Presents: 12-Week Cloud Intensive Training Program</p>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <!-- About -->
+    <section class="animate-on-scroll">
+      <h2>About the Training</h2>
+      <p>
+        Join our comprehensive <strong>12-week intensive cloud computing training</strong> designed to transform beginners into job-ready cloud professionals.
+      </p>
+      <p>
+        This hands-on program covers core cloud platforms like AWS, Microsoft Azure, and Google Cloud, with real-world projects, labs, and expert mentorship.
+      </p>
+      <p>
+        Whether you're a student, graduate, or career changer, this course will equip you with the practical skills needed to thrive in today's cloud-driven IT industry.
+      </p>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="animate-on-scroll">
+      <h2>Training Roadmap</h2>
+      <div class="roadmap">
+        <div class="roadmap-item">
+          <div>
+            <h3>Week 1–2: Linux Administration</h3>
+            <p>Master command line, file systems, permissions, scripting, and server management.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div>
+            <h3>Week 3–4: Cloud Fundamentals (AWS)</h3>
+            <p>Learn EC2, S3, VPC, IAM, and core AWS services with hands-on labs.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div>
+            <h3>Week 5: Infrastructure as Code (Terraform)</h3>
+            <p>Automate cloud infrastructure using Terraform for repeatable, scalable setups.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div>
+            <h3>Week 6: Docker & Containerization</h3>
+            <p>Build and manage containers using Docker for consistent application deployment.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div>
+            <h3>Week 7–8: Kubernetes (K8s)</h3>
+            <p>Orchestrate containers at scale using Kubernetes clusters and deployments.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div>
+            <h3>Week 9–10: CI/CD Pipelines</h3>
+            <p>Implement automated build, test, and deployment workflows using Jenkins/GitHub Actions.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div>
+            <h3>Week 11–12: Monitoring & Logging</h3>
+            <p>Use tools like Prometheus, Grafana, CloudWatch, and ELK Stack for observability.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Program Details -->
+    <section class="animate-on-scroll">
+      <h2>Program Details</h2>
+      <ul>
+        <li><i class="fas fa-clock"></i> <strong>Duration:</strong> 12 Weeks (Intensive)</li>
+        <li><i class="fas fa-calendar-alt"></i> <strong>Hours:</strong> 6 hours per day, 5 days a week</li>
+        <li><i class="fas fa-money-bill-wave"></i> <strong>Registration Fee:</strong> 500 GHS (One-time)</li>
+        <li><i class="fas fa-edit"></i> <strong>Registration Period:</strong> August 26th – July 20th</li>
+        <li><i class="fas fa-globe"></i> <strong>Format:</strong> Online / Onsite (Hybrid options available)</li>
+      </ul>
+    </section>
+
+    <!-- Requirements -->
+    <section class="animate-on-scroll">
+      <h2>Requirements</h2>
+      <div class="info-box">
+        <ul>
+          <li><i class="fas fa-laptop"></i> A functional laptop with reliable internet</li>
+          <li><i class="fas fa-book"></i> Basic computer literacy</li>
+          <li><i class="fas fa-check-circle"></i> Commitment to complete all labs and projects</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Register CTA -->
+    <section class="highlight animate-on-scroll">
+      <h2>🚀 Ready to Transform Your Career?</h2>
+      <p>Only limited seats available. Register now to secure your spot!</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfkFgngEq1KHA7k-Fhmd39bekyAdFlMC6WGtVknBspvHcD4NA/viewform?usp=preview" class="btn animate-pulse" target="_blank">
+        <i class="fas fa-clipboard-list"></i> Register Now
+      </a>
+      <p style="font-size: 0.95rem; color: #555; margin-top: 1rem;">
+        <em>Registration via Google Form. Payment details will be shared after submission.</em>
+      </p>
+    </section>
+
+    <!-- Contact -->
+    <section class="animate-on-scroll">
+      <h2>Contact Us</h2>
+      <p>
+        Have questions? Reach out to us via:
+      </p>
+      <ul>
+        <li><i class="fas fa-envelope"></i> <a href="mailto:cloudcomputingskill.lab@gmail.com">cloudcomputingskill.lab@gmail.com</a></li>
+        <li><i class="fas fa-phone-alt"></i> <a href="tel:+233509935791">050 993 5791</a></li>
+      </ul>
+      <p>We respond within 24 hours.</p>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 CloudComputing Skills Lab. All rights reserved.</p>
+    <p>Empowering the next generation of cloud professionals.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Loading animation
+    window.addEventListener('load', () => {
+      const loading = document.querySelector('.loading-animation');
+      setTimeout(() => {
+        loading.classList.add('hide');
+        setTimeout(() => {
+          loading.style.display = 'none';
+        }, 500);
+      }, 1500);
+    });
+
+    // Scroll animation for elements
+    const scrollElements = document.querySelectorAll('.animate-on-scroll');
+    const elementInView = (el, dividend = 1) => {
+      const elementTop = el.getBoundingClientRect().top;
+      return (
+        elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+      );
+    };
+    
+    const displayScrollElement = (element) => {
+      element.classList.add('is-visible');
+    };
+    
+    const hideScrollElement = (element) => {
+      element.classList.remove('is-visible');
+    };
+    
+    const handleScrollAnimation = () => {
+      scrollElements.forEach((el) => {
+        if (elementInView(el, 1.15)) {
+          displayScrollElement(el);
+        }
+      });
+      
+      // Scroll progress
+      const winHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.pageYOffset;
+      const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+      document.querySelector('.scroll-progress-bar').style.width = scrollPercent + '%';
+    };
+    
+    window.addEventListener('scroll', () => {
+      handleScrollAnimation();
+    });
+    
+    // Initial check on page load
+    setTimeout(handleScrollAnimation, 500);
+  </script>
+</body>
+</html>

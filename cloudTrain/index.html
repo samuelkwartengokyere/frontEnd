@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JonaTech Consult — Learning. Innovation. Technology.</title>
+  <meta name="description" content="We teach app & software development. Training, consultation, and development services for individuals, schools, companies & groups." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./assets/style.css" />
+  <link rel="icon" href="./assets/images/logo/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <!-- Loading animation -->
+  <div class="loading-animation">
+    <div class="loading-spinner">
+      <div class="spinner-circle"></div>
+      <div class="logo"><img src="./assets/images/logo/WhatsApp Image 2025-08-27 at 6.13.49 PM.jpeg" style="width: 36px;" alt=""></div>
+    </div>
+  </div>
+
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress">
+    <div class="scroll-progress-bar"></div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header id="top">
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="TechTrain Home">
+        <div class="logo">
+          <!-- <img src="./assets/images/logo/WhatsApp Image 2025-08-27 at 6.13.49 PM.jpeg" style="width: 36px;" alt=""> -->
+        </div>
+        <span>JonaTech Consult</span>
+      </a>
+      <nav>
+        <button class="menu-toggle" aria-label="Open menu" id="menuBtn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul id="menu">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <!-- <li><a href="#team">Team</a></li> -->
+          <li><a href="#contact" class="btn outline">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero / Home -->
+<main id="home" class="hero">
+  <!-- Image slider container -->
+  <div class="hero-slider">
+    <div class="slide active" style="background-image: url('./assets/images/first_image.jpg');"></div>
+    <div class="slide" style="background-image: url('./assets/images/second_image.webp');"></div>
+    <div class="slide" style="background-image: url('./assets/images/third_image.jpg');"></div>
+    <div class="slide" style="background-image: url('./assets/images/fourth_image.jpg');"></div>
+  </div>
+  
+  <div class="container home-container">
+    <div class="grid">
+      <div class="hero-content">
+        <h1 class="animate-slide-up" style="font-size: 38px; color:rgb(51, 50, 50);">Welcome to JonaTech Consult</h1>
+        <p class="lead animate-slide-up delay-1" style="color: #939596;">Learning. Innovation. Technology.</p>
+        <div class="sp-2"></div>
+        <div class="sp-3"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Slider controls -->
+  <div class="slider-controls">
+    <button class="slider-prev" aria-label="Previous image">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <div class="slider-dots">
+      <span class="dot active" data-index="0"></span>
+      <span class="dot" data-index="1"></span>
+      <span class="dot" data-index="2"></span>
+      <span class="dot" data-index="3"></span>
+    </div>
+    <button class="slider-next" aria-label="Next image">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  
+  <!-- Animated background elements -->
+  <div class="hero-background">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+</main>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="kicker animate-on-scroll">About Us</div>
+      <h2 style="margin:.3em 0" class="animate-on-scroll">Our mission</h2>
+      <p class="lead animate-on-scroll">At Jonatech Consult, we are passionate about leveraging technology to transform learning into an engaging, practical, 
+        and impactful experience. Our mission is to empower students, professionals, 
+        and innovators by providing them with the knowledge and skills needed to succeed in today's fast-evolving tech landscape.
+        Our training program is designed to take beginners and career changers from zero to job-ready professionals in the cloud industry. 
+        Through a hands-on, project-based approach, you'll gain real experience with the same tools and technologies used by top tech companies.
+      </p>
+      <div class="sp-3"></div>
+      <!-- <div class="cards">
+        <article class="card animate-on-scroll">
+          <div class="card-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Teaching Philosophy</h3>
+          <p>Learn by doing. Every module ends with a tangible project you can demo, share, and iterate on.</p>
+        </article>
+        <article class="card animate-on-scroll">
+          <div class="card-icon">
+            <i class="fas fa-handshake"></i>
+          </div>
+          <h3>Consultation</h3>
+          <p>Architecture reviews, code quality audits, DevOps setup, and team coaching tailored to your context.</p>
+        </article>
+        <article class="card animate-on-scroll">
+          <div class="card-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3>Development Services</h3>
+          <p>We partner with you to prototype and build apps—Android, Flutter, and web—using best practices.</p>
+        </article>
+      </div> -->
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <div class="kicker animate-on-scroll">Services</div>
+      <h2 style="margin:.3em 0" class="animate-on-scroll">Training & Programs</h2>
+      <p class="lead animate-on-scroll">Guided by industry professionals, our learning journey prepares you for roles in DevOps, 
+        cloud engineering, and related career paths.
+         At Jonatech Consult, we don't just teach theory — we equip you with the practical skills that employers demand.</p>
+      <div class="sp-3"></div>
+      <div class="cards">
+        <article class="card animate-on-scroll cloudCompute">
+          <h3>Cloud Computing</h3>
+          <p style="color: #fff;">Virtualization & Cloud Instances (VMs, Containers, Serverless),
+
+              Storage & Databases (Object storage, Block storage, Cloud SQL/NoSQL),
+
+              Networking & Security Basics (VPC, IAM, Firewalls, Encryption)
+            </p>
+          <div class="sp-2"></div>
+          <a class="btn" href="./assets/pages/cloud_page.html">view course</a>
+        </article>
+        <!-- <article class="card animate-on-scroll">
+          <h3>Flutter for Beginners</h3>
+          <p>Widgets, state management, navigation, HTTP, local storage, and deployment to Android & iOS.</p>
+          <div class="sp-2"></div>
+          <a class="btn" href="#contact">Request Syllabus</a>
+        </article>
+        <article class="card animate-on-scroll">
+          <h3>Web Full‑Stack</h3>
+          <p>HTML/CSS/JS, modern frameworks, Node.js/Express, databases, auth, and CI/CD with Docker & GitHub Actions.</p>
+          <div class="sp-2"></div>
+          <a class="btn" href="#contact">Request Syllabus</a>
+        </article>
+        <article class="card animate-on-scroll">
+          <h3>Corporate Upskilling</h3>
+          <p>Custom workshops for engineering teams. From code reviews to production hardening and observability.</p>
+          <div class="sp-2"></div>
+          <a class="btn" href="#contact">Book a Call</a>
+        </article>
+        <article class="card animate-on-scroll">
+          <h3>Consultation Clinics</h3>
+          <p>Weekly office hours for debugging, performance tuning, architecture questions, and career guidance.</p>
+          <div class="sp-2"></div>
+          <a class="btn" href="#contact">Join the Queue</a>
+        </article>
+        <article class="card animate-on-scroll">
+          <h3>Community & Schools</h3>
+          <p>Programmes for schools, churches & clubs—intro to coding, robotics, and app development with showcases.</p>
+          <div class="sp-2"></div>
+          <a class="btn" href="#contact">Partner with Us</a>
+        </article> -->
+      </div>
+      <div class="sp-4"></div>
+      <div class="cta animate-on-scroll">
+        <div>
+          <h3 style="margin:.2em 0">Need a custom curriculum?</h3>
+          <p>Tell us your goals and timeline. We'll design a learning path and outcomes that fit your team.</p>
+        </div>
+        <a class="btn" href="#contact">Get a Custom Plan</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <!-- <section id="team">
+    <div class="container">
+      <div class="kicker animate-on-scroll">Team</div>
+      <h2 style="margin:.3em 0" class="animate-on-scroll">Meet the instructors</h2>
+      <p class="lead animate-on-scroll">A skilled pool of mentors, engineers & instructors. We collaborate with a wider network to support large cohorts.</p>
+      <div class="sp-3"></div>
+      <div class="team">
+        <article class="person animate-on-scroll">
+          <div class="avatar">JN</div>
+          <h4>Jonathan Nkrumah</h4>
+          <p>Cloud Engineering</p>
+        </article>
+        <article class="person animate-on-scroll">
+          <div class="avatar"></div>
+          <h4>Samuel Kwarteng Okyere</h4>
+          <p>Cloud Engineering</p>
+        </article>
+        <article class="person animate-on-scroll">
+          <div class="avatar">A</div>
+          <h4>Anonymous</h4>
+          <p>Product • UX, Delivery</p>
+        </article>
+      </div>
+    </div>
+  </section> -->
+
+  
+  <!-- Contact -->
+<section id="contact">
+  <div class="container contact-container">
+    <div class="kicker animate-on-scroll">Get In Touch</div>
+    <h2 style="margin:.3em 0" class="animate-on-scroll">Let's Start a Conversation</h2>
+    <p class="lead animate-on-scroll">Have questions about our programs or ready to enroll? Reach out to us—we're here to help you succeed in your cloud journey.</p>
+    
+    <div class="contact-grid">
+      <div class="contact-info animate-on-scroll">
+        <h3>Contact Information</h3>
+        <ul class="contact-details">
+          <li>
+            <i class="fas fa-envelope"></i>
+            <div>
+              <strong>Email</strong><br>
+              <a href="mailto:cloudcomputingskill.lab@gmail.com">cloudcomputingskill.lab@gmail.com</a>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-phone-alt"></i>
+            <div>
+              <strong>Phone</strong><br>
+              <a href="tel:+233509935791">+233 50 993 5791</a>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Location</strong><br>
+              Ghana, West Africa
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-clock"></i>
+            <div>
+              <strong>Response Time</strong><br>
+              Within 24 hours
+            </div>
+          </li>
+        </ul>
+        
+        <div class="social-links-contact">
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      
+      <div class="contact-form animate-on-scroll">
+        <h3>Send Us a Message</h3>
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your full name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required placeholder="What is this regarding?">
+          </div>
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" name="message" required placeholder="Tell us how we can help you..."></textarea>
+          </div>
+          <button type="button" id="sendMessageBtn" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <footer>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+      <div style="display:flex; align-items:center; gap:12px">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <strong>JonaTech Consult</strong><br />
+          <span style="color:var(--muted)">Learn. Build. Launch.</span>
+        </div>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap">
+        <a class="btn outline back-to-top" href="#top">
+          <i class="fas fa-arrow-up"></i> Back to top
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./assets/index.js"></script>
+</body>
+</html>
