@@ -1,0 +1,74 @@
+body{
+    margin:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    /* overflow: hidden; */
+}
+
+h1{
+    font-size: 100px;
+    color: aliceblue;
+    backdrop-filter: brightness(.5);
+    letter-spacing: 4px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.btn{
+    background-color: black;
+    color: white;
+    padding: 20px 40px;
+    font-size: 25px;
+    border: 4px solid;
+    font-weight: 300;
+    cursor: pointer;
+    transition: .4s background-color;
+    white-space: nowrap;
+}
+.btn:hover{
+    background-color: white;
+    color: black;
+}
+
+.split{
+    width: 50%;
+    height: 100%;
+    top: 0;
+    overflow: hidden;
+    transition: .4s ease-in-out;
+}
+
+.left{
+    background-image:linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)), url('https://regen.pk/cdn/shop/products/Regen-iPhone-13-Pro-Max-graphite_df6678d7-e7c4-4be5-9a67-dc5b73b9221d.jpg?v=1682413511&width=713');
+    background-position: center;
+    background-size: cover;
+    position:absolute;
+    left: 0;
+    background-color: pink;
+}
+.right{
+    background-image:linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4)), url('https://mrflex.best.com.kw/medias/1200Wx1200H-SM-S928BZKCMEA-SG.jpg?context=bWFzdGVyfGltYWdlc3wxMjQxMTN8aW1hZ2UvanBlZ3xhREF6TDJnMlpDOHhOREV6TlRNNU9UY3hNRGMxTUM4eE1qQXdWM2d4TWpBd1NGOVRUUzFUT1RJNFFscExRMDFGUVMxVFJ5NXFjR2N8MjY5YWE0ODlmMWYwMDkxZGQ2NGRlNGM3M2RiMjU3OTE0M2ExMTM1ZDNkNjc1YzczMzk5NTJkNTVlOTc1ZTU4Yg');
+    background-position: center;
+    background-size: cover;
+    position:absolute;
+    right: 0;
+    background-color: lightblue;
+}
+
+.active-left .left{
+    width: 75%;
+}
+.active-left .right{
+    width: 25%;
+}
+
+.active-right .left{
+    width: 25%;
+}
+.active-right .right{
+    width: 75%;
+}

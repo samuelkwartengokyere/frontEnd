@@ -1,0 +1,57 @@
+body{
+    margin:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0)), url('./3D\ And\ Fantasy\ Girls\ \(9\).jpg');
+    background-size: cover;
+    background-position: center;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+h2{
+    color:white;
+    font-size: 19px;
+    letter-spacing: 2px;
+    font-weight: 100;
+}
+.clock-container{
+    display: flex;
+    position:relative;
+}
+
+.clock-container div{
+    margin: 10px;
+}
+
+.clock-container span{
+    background-color: slateblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    text-shadow: 2px 2px 4px rgba(0,0,0, .4), 0 2px 4px rgba(0,0,0, .4);
+    opacity: .8;
+    color: #fff;
+}
+.time{
+    font-size: 50px;
+}
+.clock-container .text{
+    font-size: 18px;
+    height: 40px;
+    background-color: darkblue;
+    opacity: .7;
+}
+
+.clock-container .ampm{
+    position: absolute;
+    bottom:11px;
+    height: 30px;
+    width: 60px;
+    font-size: 29px;
+    font-weight: bold;
+}

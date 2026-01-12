@@ -1,0 +1,48 @@
+body{
+    margin:0;
+    display:flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    background-color: yellow;
+    text-align: center;
+}
+
+.stat-container{
+    margin:20px;
+    border: dotted green;
+    min-width: 200px;
+    height: 100px;
+    position: relative;
+    padding: 20px;
+    white-space: nowrap;
+}
+
+.icon{
+    position:absolute;
+    top:-30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.counter{
+    font-size: 50px;
+    position: relative;
+    bottom:-50%;
+    transform: translateY(-50%);
+    color:green;
+}
+
+h4{
+    position: relative;
+    bottom:1px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+@media (max-width:600px){
+    body{
+        flex-direction: column;
+    }
+}

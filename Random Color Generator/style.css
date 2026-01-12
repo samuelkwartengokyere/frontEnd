@@ -1,0 +1,30 @@
+body{
+    margin:0;
+    font-family: sans-serif;
+    font-style: italic;
+}
+
+h1{
+    text-align: center;
+}
+
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.color-container{
+    background-color: orange;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 150px;
+    font-size:25px;
+    color:white;
+    text-shadow: 2px 2px 8px rgba(0,0,0,.4), 2px 2px 8px rgba(0,0,0,.4);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.4), 0 4px 8px rgba(0,0,0,.4);
+}

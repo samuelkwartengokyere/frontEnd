@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Edu+NSW+ACT+Cursive:wght@400..700&family=Permanent+Marker&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+body{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: slateblue;
+    font-family: "Edu NSW ACT Cursive", cursive;
+}
+
+.calendar-container{
+    background-color: #fff;
+    width: 300px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 5px 12px rgba(0,0,0, .3);
+    overflow: hidden;
+}
+
+.month-name{
+    margin:0;
+    background-color: orangered;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:30px;
+    font-weight: bold;
+    color:#fff;
+    padding: 10px;
+}
+
+.day-name{
+    font-size: 20px;
+    color:darkgrey;
+    font-weight: 500;
+}
+
+.day-number{
+    font-size: 80px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.year{
+    margin: 20px 0;
+    font-size: 20px;
+    color:darkgrey;
+    font-weight: 500;
+}
+ 

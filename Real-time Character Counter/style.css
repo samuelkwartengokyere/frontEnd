@@ -1,0 +1,45 @@
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: salmon;
+}
+.container{
+    border:none;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.4), 0 4px 8px rgba(0,0,0,.4);
+    background-color: pink;
+    width: 400px;
+    padding: 20px;
+    margin:5px;
+}
+
+.textarea{
+    resize: none;
+    width: 100%;
+    height: 100px;
+    font-size: 18px;
+    font-family: sans-serif;
+    padding: 10px;
+    box-sizing: border-box;
+    border: none;
+}
+
+.counter-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+.counter-container p{
+    font-size: 18px;
+    color: grey;
+}
+
+p .total-characters{
+    color: slateblue;
+}
+p .remaining-characters{
+    color:orangered
+}

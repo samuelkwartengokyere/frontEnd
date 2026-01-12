@@ -1,0 +1,67 @@
+body{
+    margin:0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: slateblue;
+}
+
+h2{
+    text-transform: uppercase;
+    color:aliceblue;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 4px;
+    font-size: 30px;
+}
+
+.year{
+    font-size: 6rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color:aliceblue;
+}
+
+.container{
+    display: flex;
+    background: rgb(47, 35, 128);
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    margin:5px;
+    height: 130px;
+    align-items: center;
+    color:aliceblue;
+    font-size: 60px;
+}
+
+.time{
+    margin:0 .7em;
+    position: relative;
+}
+
+
+.time::after{
+    content:'';
+    position:absolute;
+    bottom:-20px;
+    left: 0;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 2px;
+    margin:0;
+}
+
+#day::after{
+    content: 'DAYS';
+}
+#hour::after{
+    content: 'HOURS';
+}
+#minute::after{
+    content: 'MINUTES';
+}
+#second::after{
+    content: 'SECONDS';
+}

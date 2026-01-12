@@ -1,0 +1,39 @@
+body{
+    margin:0;
+    display:flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    background: salmon;
+    color:white;
+    box-sizing: border-box;
+    }
+
+.container{
+    background-color: pink;
+    width:45%;
+    height: 18%;
+    border-radius: 10px;
+    padding:70px 40px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,.3), 0 4px 8px rgba(0,0,0,.3);
+}
+
+img{
+    width:130px;
+    height: 130px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top:-25%;
+    border-radius: 50%;
+    border: 2px solid;
+}
+p{
+    font-size:17px;
+    font-family: 'Times New Roman', Times, sans-serif;
+}
+.username{
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 100;
+}
