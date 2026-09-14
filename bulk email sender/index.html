@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Hub Africa | Campaign Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+    <div id="toast-container"></div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                <span>Tech Hub Africa</span>
+            </div>
+            <h1>Campaign Studio</h1>
+        </header>
+
+        <div class="glass-card">
+            <details class="setup-panel" id="setupPanel" open>
+                <summary class="setup-summary">
+                    <span>Email service setup</span>
+                    <span class="badge" id="configStatus">Not configured</span>
+                </summary>
+                <p class="setup-help">
+                    This app sends through <strong>EmailJS</strong>. The mailbox you connect in EmailJS (Gmail, Outlook, etc.) is the actual <strong>From</strong> address. The sender field below is used as <strong>Reply-To</strong>, so replies go to you.
+                </p>
+                <ol class="setup-steps">
+                    <li>Create a free account at <a href="https://www.emailjs.com/" target="_blank" rel="noopener noreferrer">emailjs.com</a>.</li>
+                    <li>Add an Email Service and connect the Gmail/Outlook account that should send the campaign.</li>
+                    <li>Create a template whose <em>To</em> field is <code>{{to_email}}</code>, subject is <code>{{subject}}</code>, Reply-To is <code>{{reply_to}}</code>, and body includes <code>{{message}}</code> (optional: <code>{{from_name}}</code>).</li>
+                    <li>Paste your Public Key, Service ID, and Template ID below. They are saved in this browser only.</li>
+                </ol>
+                <div class="setup-grid">
+                    <div class="form-section">
+                        <label for="emailjsPublicKey" class="form-label">Public Key</label>
+                        <input type="text" id="emailjsPublicKey" class="modern-input" placeholder="e.g. abc123XYZ" autocomplete="off">
+                    </div>
+                    <div class="form-section">
+                        <label for="emailjsServiceId" class="form-label">Service ID</label>
+                        <input type="text" id="emailjsServiceId" class="modern-input" placeholder="e.g. service_xxxxx" autocomplete="off">
+                    </div>
+                    <div class="form-section">
+                        <label for="emailjsTemplateId" class="form-label">Template ID</label>
+                        <input type="text" id="emailjsTemplateId" class="modern-input" placeholder="e.g. template_xxxxx" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-actions setup-actions">
+                    <button type="button" class="btn-secondary" id="saveConfigBtn">Save EmailJS settings</button>
+                </div>
+            </details>
+
+            <form id="emailForm">
+                <div class="form-section">
+                    <label for="fromName" class="form-label">Sender name</label>
+                    <input type="text" id="fromName" class="modern-input" placeholder="e.g. Tech Hub Africa" required>
+                </div>
+
+                <div class="form-section">
+                    <label for="senderEmail" class="form-label">Sender email (Reply-To)</label>
+                    <input type="email" id="senderEmail" class="modern-input" placeholder="e.g. info@techhubafrica.org" required>
+                    <p class="field-hint">Recipients reply to this address. The EmailJS connected mailbox still appears as the From address.</p>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">
+                        Recipients
+                        <span class="badge" id="recipientCount">0 emails</span>
+                    </label>
+                    <p class="field-hint">Paste addresses separated by commas, spaces, or new lines. Or upload a .csv / .txt file — every valid email in the file is extracted.</p>
+
+                    <div class="dropzone" id="dropzone">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        <p>Drag & drop a <strong>.csv</strong> or <strong>.txt</strong> file here</p>
+                        <span>or</span>
+                        <button type="button" class="btn-browse" id="browseBtn">Browse Files</button>
+                        <input type="file" id="fileInput" accept=".csv,.txt,text/csv,text/plain" hidden>
+                    </div>
+
+                    <textarea id="recipients" class="modern-input" rows="4" placeholder="user1@example.com, user2@example.com" required></textarea>
+                </div>
+
+                <div class="form-section">
+                    <label for="subject" class="form-label">Subject Line</label>
+                    <input type="text" id="subject" class="modern-input" placeholder="e.g., Join the Tech Guru Meetup 2026!" required>
+                </div>
+
+                <div class="form-section">
+                    <label for="message" class="form-label">Message Body</label>
+                    <textarea id="message" class="modern-input" rows="8" placeholder="Write your campaign message here..." required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="clearBtn">Clear All</button>
+                    <button type="submit" class="btn-primary" id="sendBtn">
+                        <span class="btn-text">Launch Campaign</span>
+                        <span class="btn-loader hidden">
+                            <svg class="spinner" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.4 31.4" /></svg>
+                            Sending...
+                        </span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="progressSection" class="progress-section hidden">
+                <div class="progress-header">
+                    <span id="progressStatus">Initializing...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat success"><span id="statSuccess">0</span> Sent</div>
+                    <div class="stat failed"><span id="statFailed">0</span> Failed</div>
+                </div>
+                <ul id="failedList" class="failed-list hidden"></ul>
+            </div>
+        </div>
+
+        <footer class="app-footer">
+            <p>Empowering Africa's tech ecosystem. Connect. Learn. Grow.</p>
+        </footer>
+    </main>
+
+    <script src="index.js"></script>
+</body>
+</html>
