@@ -1,8 +1,5 @@
 class BulkMailerApp {
     constructor() {
-        this.STORAGE_KEY = 'tha_campaign_studio_config';
-        this.PLACEHOLDER_KEYS = new Set(['YOUR_PUBLIC_KEY', 'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', '']);
-
         this.DOM = {
             form: document.getElementById('emailForm'),
             fromName: document.getElementById('fromName'),
@@ -23,13 +20,7 @@ class BulkMailerApp {
             statSuccess: document.getElementById('statSuccess'),
             statFailed: document.getElementById('statFailed'),
             failedList: document.getElementById('failedList'),
-            toastContainer: document.getElementById('toast-container'),
-            setupPanel: document.getElementById('setupPanel'),
-            configStatus: document.getElementById('configStatus'),
-            emailjsPublicKey: document.getElementById('emailjsPublicKey'),
-            emailjsServiceId: document.getElementById('emailjsServiceId'),
-            emailjsTemplateId: document.getElementById('emailjsTemplateId'),
-            saveConfigBtn: document.getElementById('saveConfigBtn')
+            configStatus: document.getElementById('configStatus')
         };
 
         this.emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
@@ -39,101 +30,67 @@ class BulkMailerApp {
     }
 
     init() {
-        this.loadConfig();
+        this.loadCampaignFields();
         this.initEmailJS();
         this.bindEvents();
         this.updateRecipientCount();
         this.updateConfigStatus();
     }
 
-    loadConfig() {
-        try {
-            const saved = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '{}');
-            this.DOM.emailjsPublicKey.value = saved.publicKey || '';
-            this.DOM.emailjsServiceId.value = saved.serviceId || '';
-            this.DOM.emailjsTemplateId.value = saved.templateId || '';
-            this.DOM.fromName.value = saved.fromName || '';
-            this.DOM.senderEmail.value = saved.senderEmail || '';
-        } catch {
-            localStorage.removeItem(this.STORAGE_KEY);
-        }
+    loadCampaignFields() {
+        const saved = loadCampaignConfig();
+        this.DOM.fromName.value = saved.fromName || '';
+        this.DOM.senderEmail.value = saved.senderEmail || '';
     }
 
     persistCampaignFields() {
-        const current = this.readConfig();
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify({
-            ...current,
+        saveCampaignConfig({
             fromName: this.DOM.fromName.value.trim(),
             senderEmail: this.DOM.senderEmail.value.trim()
-        }));
+        });
     }
 
-    readConfig() {
+    readSendFields() {
+        const saved = loadCampaignConfig();
         return {
-            publicKey: this.DOM.emailjsPublicKey.value.trim(),
-            serviceId: this.DOM.emailjsServiceId.value.trim(),
-            templateId: this.DOM.emailjsTemplateId.value.trim(),
+            publicKey: (saved.publicKey || '').trim(),
+            serviceId: (saved.serviceId || '').trim(),
+            templateId: (saved.templateId || '').trim(),
             fromName: this.DOM.fromName.value.trim(),
             senderEmail: this.DOM.senderEmail.value.trim()
         };
     }
 
-    isConfigured() {
-        const { publicKey, serviceId, templateId } = this.readConfig();
-        return [publicKey, serviceId, templateId].every(
-            (value) => value && !this.PLACEHOLDER_KEYS.has(value)
-        );
-    }
-
     updateConfigStatus() {
-        const ready = this.isConfigured();
+        const ready = isEmailJsConfigured();
         this.DOM.configStatus.textContent = ready ? 'Configured' : 'Not configured';
         this.DOM.configStatus.classList.toggle('ok', ready);
-        if (this.DOM.setupPanel) {
-            this.DOM.setupPanel.open = !ready;
-        }
     }
 
     initEmailJS() {
         if (typeof emailjs === 'undefined') {
-            this.showToast('EmailJS failed to load. Check your internet connection.', 'error');
+            showToast('EmailJS failed to load. Check your internet connection.', 'error');
             return false;
         }
 
-        const { publicKey } = this.readConfig();
-        if (!publicKey || this.PLACEHOLDER_KEYS.has(publicKey)) {
+        const { publicKey } = loadCampaignConfig();
+        if (!publicKey || !isEmailJsConfigured()) {
             return false;
         }
 
         try {
-            emailjs.init({ publicKey });
+            emailjs.init({ publicKey: publicKey.trim() });
             return true;
         } catch (err) {
             console.error(err);
-            this.showToast('Could not initialize EmailJS. Check your Public Key.', 'error');
+            showToast('Could not initialize EmailJS. Check your Public Key in Settings.', 'error');
             return false;
-        }
-    }
-
-    saveConfig() {
-        const config = this.readConfig();
-        if (!config.publicKey || !config.serviceId || !config.templateId) {
-            this.showToast('Enter Public Key, Service ID, and Template ID.', 'error');
-            return;
-        }
-
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(config));
-        const ok = this.initEmailJS();
-        this.updateConfigStatus();
-        if (ok) {
-            this.showToast('EmailJS settings saved in this browser.', 'success');
         }
     }
 
     bindEvents() {
         this.DOM.form.addEventListener('submit', (e) => this.handleSubmit(e));
         this.DOM.clearBtn.addEventListener('click', () => this.clearForm());
-        this.DOM.saveConfigBtn.addEventListener('click', () => this.saveConfig());
 
         this.DOM.browseBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -172,20 +129,6 @@ class BulkMailerApp {
         this.DOM.recipientCount.textContent = `${emails.length} valid email${emails.length !== 1 ? 's' : ''}`;
     }
 
-    showToast(message, type = 'info') {
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        const span = document.createElement('span');
-        span.textContent = message;
-        toast.appendChild(span);
-        this.DOM.toastContainer.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.animation = 'slideIn 0.3s reverse';
-            setTimeout(() => toast.remove(), 300);
-        }, 4000);
-    }
-
     sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
@@ -211,14 +154,14 @@ class BulkMailerApp {
 
     clearForm() {
         this.DOM.form.reset();
-        this.loadConfig();
+        this.loadCampaignFields();
         this.DOM.recipients.value = '';
         this.DOM.subject.value = '';
         this.DOM.message.value = '';
         this.updateRecipientCount();
         this.DOM.progressSection.classList.add('hidden');
         this.resetProgress();
-        this.showToast('Form cleared', 'info');
+        showToast('Form cleared', 'info');
     }
 
     handleDragOver(e) {
@@ -235,7 +178,7 @@ class BulkMailerApp {
 
     processFile(file) {
         if (!file.name.match(/\.(csv|txt)$/i)) {
-            this.showToast('Please upload a .csv or .txt file', 'error');
+            showToast('Please upload a .csv or .txt file', 'error');
             return;
         }
 
@@ -247,9 +190,9 @@ class BulkMailerApp {
             const cleanEmailsArray = this.getValidEmailArray(combinedText);
             this.DOM.recipients.value = cleanEmailsArray.join('\n');
             this.updateRecipientCount();
-            this.showToast(`Extracted ${cleanEmailsArray.length} valid emails from ${file.name}`, 'success');
+            showToast(`Extracted ${cleanEmailsArray.length} valid emails from ${file.name}`, 'success');
         };
-        reader.onerror = () => this.showToast('Could not read that file.', 'error');
+        reader.onerror = () => showToast('Could not read that file.', 'error');
         reader.readAsText(file);
     }
 
@@ -266,41 +209,40 @@ class BulkMailerApp {
         if (this.sending) return;
 
         if (typeof emailjs === 'undefined') {
-            this.showToast('EmailJS is not loaded. Refresh the page and try again.', 'error');
+            showToast('EmailJS is not loaded. Refresh the page and try again.', 'error');
             return;
         }
 
-        if (!this.isConfigured() || !this.initEmailJS()) {
-            this.showToast('Save your EmailJS Public Key, Service ID, and Template ID first.', 'error');
-            this.DOM.setupPanel.open = true;
-            this.DOM.emailjsPublicKey.focus();
+        if (!isEmailJsConfigured() || !this.initEmailJS()) {
+            showToast('Open Settings and save your EmailJS keys first.', 'error');
+            window.location.href = 'settings.html';
             return;
         }
 
-        const { serviceId, templateId, fromName, senderEmail } = this.readConfig();
+        const { serviceId, templateId, fromName, senderEmail } = this.readSendFields();
         const emails = this.getValidEmailArray(this.DOM.recipients.value);
         const subject = this.DOM.subject.value.trim();
         const message = this.DOM.message.value.trim();
 
         if (!fromName) {
-            this.showToast('Please enter a sender name.', 'error');
+            showToast('Please enter a sender name.', 'error');
             this.DOM.fromName.focus();
             return;
         }
 
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(senderEmail)) {
-            this.showToast('Please enter a valid sender (Reply-To) email.', 'error');
+            showToast('Please enter a valid sender (Reply-To) email.', 'error');
             this.DOM.senderEmail.focus();
             return;
         }
 
         if (emails.length === 0) {
-            this.showToast('No valid recipient emails found. Please check your list.', 'error');
+            showToast('No valid recipient emails found. Please check your list.', 'error');
             return;
         }
 
         if (!subject || !message) {
-            this.showToast('Subject and message are required.', 'error');
+            showToast('Subject and message are required.', 'error');
             return;
         }
 
@@ -356,9 +298,9 @@ class BulkMailerApp {
         }
 
         if (failed === 0) {
-            this.showToast(`Successfully sent to ${success} recipient${success !== 1 ? 's' : ''}.`, 'success');
+            showToast(`Successfully sent to ${success} recipient${success !== 1 ? 's' : ''}.`, 'success');
         } else {
-            this.showToast(`Finished. ${success} sent, ${failed} failed.`, 'error');
+            showToast(`Finished. ${success} sent, ${failed} failed.`, 'error');
         }
     }
 }

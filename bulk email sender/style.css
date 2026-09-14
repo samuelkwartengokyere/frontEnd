@@ -38,8 +38,77 @@ body {
 .app-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1rem;
     margin-bottom: 2rem;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.settings-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.45rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.settings-link:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: rgba(249, 115, 22, 0.08);
+}
+
+.settings-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.settings-status.ok { color: var(--accent); }
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.back-link:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.settings-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.settings-heading h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+a.btn-secondary {
+    text-decoration: none;
 }
 
 .logo {
@@ -351,4 +420,6 @@ button:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important;
     body { padding: 1rem; }
     .glass-card { padding: 1.5rem; }
     .form-actions { flex-direction: column; }
+    .app-header { flex-wrap: wrap; }
+    .settings-status { display: none; }
 }

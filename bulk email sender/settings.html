@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Tech Hub Africa Campaign Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="toast-container"></div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <div class="header-brand">
+                <a href="index.html" class="back-link" aria-label="Back to campaign">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </a>
+                <div class="logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                    <span>Tech Hub Africa</span>
+                </div>
+                <h1>Settings</h1>
+            </div>
+        </header>
+
+        <div class="glass-card">
+            <div class="settings-heading">
+                <h2>Email service</h2>
+                <span class="badge" id="configStatus">Not configured</span>
+            </div>
+            <p class="setup-help">
+                This app sends through <strong>EmailJS</strong>. The mailbox you connect in EmailJS (Gmail, Outlook, etc.) is the actual <strong>From</strong> address. The sender email on the campaign form is used as <strong>Reply-To</strong>.
+            </p>
+            <ol class="setup-steps">
+                <li>Create a free account at <a href="https://www.emailjs.com/" target="_blank" rel="noopener noreferrer">emailjs.com</a>.</li>
+                <li>Add an Email Service and connect the Gmail/Outlook account that should send the campaign.</li>
+                <li>Create a template whose <em>To</em> field is <code>{{to_email}}</code>, subject is <code>{{subject}}</code>, Reply-To is <code>{{reply_to}}</code>, and body includes <code>{{message}}</code> (optional: <code>{{from_name}}</code>).</li>
+                <li>Paste your Public Key, Service ID, and Template ID below. They are saved in this browser only.</li>
+            </ol>
+
+            <form id="settingsForm">
+                <div class="setup-grid">
+                    <div class="form-section">
+                        <label for="emailjsPublicKey" class="form-label">Public Key</label>
+                        <input type="text" id="emailjsPublicKey" class="modern-input" placeholder="e.g. abc123XYZ" autocomplete="off" required>
+                    </div>
+                    <div class="form-section">
+                        <label for="emailjsServiceId" class="form-label">Service ID</label>
+                        <input type="text" id="emailjsServiceId" class="modern-input" placeholder="e.g. service_xxxxx" autocomplete="off" required>
+                    </div>
+                    <div class="form-section">
+                        <label for="emailjsTemplateId" class="form-label">Template ID</label>
+                        <input type="text" id="emailjsTemplateId" class="modern-input" placeholder="e.g. template_xxxxx" autocomplete="off" required>
+                    </div>
+                </div>
+                <div class="form-actions setup-actions">
+                    <a href="index.html" class="btn-secondary btn-link">Back to campaign</a>
+                    <button type="submit" class="btn-primary" id="saveConfigBtn">Save settings</button>
+                </div>
+            </form>
+        </div>
+
+        <footer class="app-footer">
+            <p>Empowering Africa's tech ecosystem. Connect. Learn. Grow.</p>
+        </footer>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="settings.js"></script>
+</body>
+</html>
