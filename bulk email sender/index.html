@@ -32,9 +32,19 @@
                 </div>
 
                 <div class="form-section">
-                    <label for="senderEmail" class="form-label">Sender email (Reply-To)</label>
+                    <label for="fromEmail" class="form-label">From email (sending mailbox)</label>
+                    <input type="email" id="fromEmail" class="modern-input" placeholder="e.g. events@techhubafrica.org" required>
+                    <p class="field-hint">This is who the message is <strong>from</strong>. It does not have to stay as events@ — you can use info@, hello@, or another address. That mailbox must exist in cPanel, and EmailJS From Email must be <code>{{from_email}}</code> (uncheck Use Default Email Address). If SMTP only allows the logged-in mailbox, other From addresses will bounce.</p>
+                </div>
+
+                <div class="form-section">
+                    <label for="senderEmail" class="form-label">Reply-To email</label>
                     <input type="email" id="senderEmail" class="modern-input" placeholder="e.g. events@techhubafrica.org" required>
-                    <p class="field-hint">This is Reply-To. The visible From is the cPanel mailbox connected in EmailJS (events@techhubafrica.org). You can set Reply-To to events@ or another address. Test delivery with a second inbox, and check Spam.</p>
+                    <p class="field-hint">Replies go here. This can be a different address from From. Example: send from events@ and collect replies at info@.</p>
+                </div>
+
+                <div class="notice-card">
+                    <strong>If Gmail never shows the mail:</strong> EmailJS History already said OK, so this app is not blocking delivery. Check cPanel Track Delivery, enable SPF/DKIM, then search Gmail for <code>from:techhubafrica.org</code>. Gmail often drops mail from new cPanel IPs instead of placing it in Spam.
                 </div>
 
                 <div class="form-section">

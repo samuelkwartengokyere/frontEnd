@@ -3,6 +3,7 @@ class BulkMailerApp {
         this.DOM = {
             form: document.getElementById('emailForm'),
             fromName: document.getElementById('fromName'),
+            fromEmail: document.getElementById('fromEmail'),
             senderEmail: document.getElementById('senderEmail'),
             eventSelect: document.getElementById('eventSelect'),
             templateSelect: document.getElementById('templateSelect'),
@@ -53,12 +54,14 @@ class BulkMailerApp {
     loadCampaignFields() {
         const saved = loadCampaignConfig();
         this.DOM.fromName.value = saved.fromName || DEFAULT_SENDER.fromName;
-        this.DOM.senderEmail.value = saved.senderEmail || DEFAULT_SENDER.senderEmail;
+        this.DOM.fromEmail.value = saved.fromEmail || DEFAULT_SENDER.senderEmail;
+        this.DOM.senderEmail.value = saved.senderEmail || saved.fromEmail || DEFAULT_SENDER.senderEmail;
     }
 
     persistCampaignFields() {
         saveCampaignConfig({
             fromName: this.DOM.fromName.value.trim(),
+            fromEmail: this.DOM.fromEmail.value.trim(),
             senderEmail: this.DOM.senderEmail.value.trim()
         });
     }
@@ -230,6 +233,7 @@ class BulkMailerApp {
             serviceId: (saved.serviceId || '').trim(),
             templateId: (saved.templateId || '').trim(),
             fromName: this.DOM.fromName.value.trim(),
+            fromEmail: this.DOM.fromEmail.value.trim(),
             senderEmail: this.DOM.senderEmail.value.trim()
         };
     }
@@ -299,6 +303,7 @@ class BulkMailerApp {
         this.DOM.dropzone.addEventListener('drop', (e) => this.handleDrop(e));
         this.DOM.recipients.addEventListener('input', () => this.updateRecipientCount());
         this.DOM.senderEmail.addEventListener('change', () => this.persistCampaignFields());
+        this.DOM.fromEmail.addEventListener('change', () => this.persistCampaignFields());
         this.DOM.fromName.addEventListener('change', () => this.persistCampaignFields());
     }
 
@@ -402,7 +407,7 @@ class BulkMailerApp {
             return;
         }
 
-        const { fromName, senderEmail } = this.readSendFields();
+        const { fromName, fromEmail, senderEmail } = this.readSendFields();
         const emails = extractEmails(this.DOM.recipients.value);
         const event = this.selectedEvent();
         const vars = this.templateVars();
@@ -415,8 +420,14 @@ class BulkMailerApp {
             return;
         }
 
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fromEmail)) {
+            showToast('Please enter a valid From email.', 'error');
+            this.DOM.fromEmail.focus();
+            return;
+        }
+
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(senderEmail)) {
-            showToast('Please enter a valid sender (Reply-To) email.', 'error');
+            showToast('Please enter a valid Reply-To email.', 'error');
             this.DOM.senderEmail.focus();
             return;
         }
@@ -468,7 +479,7 @@ class BulkMailerApp {
                 await sendCampaignEmail(email, {
                     to_name: email,
                     from_name: fromName,
-                    from_email: senderEmail,
+                    from_email: fromEmail,
                     reply_to: senderEmail,
                     subject,
                     message,

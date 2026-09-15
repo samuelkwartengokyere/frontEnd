@@ -36,8 +36,8 @@
             <ol class="setup-steps">
                 <li>In cPanel → Email Accounts → <em>Connect Devices</em> for <code>events@techhubafrica.org</code>, copy the outgoing SMTP host (often <code>mail.techhubafrica.org</code> or the server hostname).</li>
                 <li>In EmailJS → Email Services → Add Service → choose <strong>SMTP</strong> / Custom SMTP. Username: the full address <code>events@techhubafrica.org</code>. Password: that mailbox password. Port <strong>465</strong> (SSL) or <strong>587</strong> (TLS). Save and run the connection test.</li>
-                <li>Keep the template <strong>From Email</strong> as <em>Use Default Email Address</em> so From is <code>events@techhubafrica.org</code>. Reply-To stays <code>{{reply_to}}</code> — that can be events@ or another inbox.</li>
-                <li>On the template, click <strong>Test It</strong> and send to a personal Gmail/Outlook (not only events@). Then check EmailJS <strong>Email History</strong> and the test inbox Spam folder.</li>
+                <li>To send as a <strong>different From address</strong> (not only events@): uncheck <em>Use Default Email Address</em> and set From Email to <code>{{from_email}}</code>. Create that mailbox in cPanel, or add another EmailJS SMTP service for it. Reply-To stays <code>{{reply_to}}</code> and can be any inbox.</li>
+                <li>On the template, click <strong>Test It</strong> and send to a personal Gmail/Outlook. Then check EmailJS <strong>Email History</strong> and cPanel <strong>Track Delivery</strong>. A 200 OK from EmailJS is not the same as Gmail delivering the mail.</li>
                 <li>In cPanel, enable SPF and DKIM for techhubafrica.org so other inboxes do not bury the mail.</li>
                 <li>For logos, set Content to <code>{{{message_html}}}</code> (three braces).</li>
             </ol>

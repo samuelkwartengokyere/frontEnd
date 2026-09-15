@@ -90,6 +90,7 @@ function recipientTemplateParams(recipient, extra = {}) {
         to_email: recipient,
         to_name: extra.to_name || recipient,
         from_name: extra.from_name || 'Tech Hub Africa',
+        from_email: extra.from_email || extra.reply_to || '',
         reply_to: extra.reply_to || extra.from_email || '',
         subject: extra.subject || '',
         message,

@@ -518,6 +518,25 @@ button:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important;
 
 .hidden { display: none !important; }
 
+.notice-card {
+    margin-bottom: 1.5rem;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(249, 115, 22, 0.25);
+    background: rgba(249, 115, 22, 0.08);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.notice-card strong { color: var(--text-primary); }
+.notice-card code {
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+}
+
 .logo-preview-wrap {
     margin-top: 0.85rem;
     padding: 0.85rem;
