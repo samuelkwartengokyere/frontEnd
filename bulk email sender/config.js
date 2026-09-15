@@ -1,25 +1,145 @@
+/**
+ * EmailJS keys used by the app.
+ *
+ * Paste your Public Key, Service ID, and Template ID here so campaign users
+ * do not need the Settings page. Leave them empty only if you want each
+ * browser to be configured manually instead.
+ *
+ * These values are visible to anyone who can open this file (or View Source).
+ */
+const BUILT_IN_EMAILJS = {
+    publicKey: 'Ns9074-0p8Y91ACxx',
+    serviceId: 'service_aexripc',
+    templateId: 'template_wav50t7'
+};
+
+const DEFAULT_SENDER = {
+    fromName: 'Tech Hub Africa',
+    senderEmail: 'events@techhubafrica.org'
+};
 const CAMPAIGN_CONFIG_KEY = 'tha_campaign_studio_config';
 const PLACEHOLDER_KEYS = new Set(['YOUR_PUBLIC_KEY', 'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', '']);
 
+function filledValue(value) {
+    const trimmed = String(value || '').trim();
+    return trimmed && !PLACEHOLDER_KEYS.has(trimmed) ? trimmed : '';
+}
+
+function hasBuiltInEmailJs() {
+    return Boolean(
+        filledValue(BUILT_IN_EMAILJS.publicKey) &&
+        filledValue(BUILT_IN_EMAILJS.serviceId) &&
+        filledValue(BUILT_IN_EMAILJS.templateId)
+    );
+}
+
 function loadCampaignConfig() {
+    let saved = {};
     try {
-        return JSON.parse(localStorage.getItem(CAMPAIGN_CONFIG_KEY) || '{}');
+        saved = JSON.parse(localStorage.getItem(CAMPAIGN_CONFIG_KEY) || '{}');
     } catch {
         localStorage.removeItem(CAMPAIGN_CONFIG_KEY);
-        return {};
+        saved = {};
     }
+
+    return {
+        ...saved,
+        publicKey: filledValue(BUILT_IN_EMAILJS.publicKey) || filledValue(saved.publicKey),
+        serviceId: filledValue(BUILT_IN_EMAILJS.serviceId) || filledValue(saved.serviceId),
+        templateId: filledValue(BUILT_IN_EMAILJS.templateId) || filledValue(saved.templateId)
+    };
 }
 
 function saveCampaignConfig(partial) {
-    const next = { ...loadCampaignConfig(), ...partial };
+    const current = (() => {
+        try {
+            return JSON.parse(localStorage.getItem(CAMPAIGN_CONFIG_KEY) || '{}');
+        } catch {
+            return {};
+        }
+    })();
+
+    const next = { ...current, ...partial };
+
+    if (hasBuiltInEmailJs()) {
+        delete next.publicKey;
+        delete next.serviceId;
+        delete next.templateId;
+    }
+
     localStorage.setItem(CAMPAIGN_CONFIG_KEY, JSON.stringify(next));
-    return next;
+    return loadCampaignConfig();
 }
 
 function isEmailJsConfigured(config = loadCampaignConfig()) {
-    return [config.publicKey, config.serviceId, config.templateId].every(
-        (value) => value && !PLACEHOLDER_KEYS.has(String(value).trim())
+    return Boolean(
+        filledValue(config.publicKey) &&
+        filledValue(config.serviceId) &&
+        filledValue(config.templateId)
     );
+}
+
+function isPublicLogoUrl(value) {
+    return /^https?:\/\//i.test(String(value || '').trim());
+}
+
+function recipientTemplateParams(recipient, extra = {}) {
+    const message = extra.message || '';
+    const logoUrl = isPublicLogoUrl(extra.logo_url) ? extra.logo_url.trim() : '';
+    return {
+        to_email: recipient,
+        to_name: extra.to_name || recipient,
+        from_name: extra.from_name || 'Tech Hub Africa',
+        reply_to: extra.reply_to || extra.from_email || '',
+        subject: extra.subject || '',
+        message,
+        message_html: extra.message_html || buildMessageHtml(message, logoUrl),
+        logo_url: logoUrl,
+        event_name: extra.event_name || ''
+    };
+}
+
+async function sendCampaignEmail(recipient, extra = {}) {
+    const config = loadCampaignConfig();
+    const templateParams = recipientTemplateParams(recipient, extra);
+
+    if (typeof emailjs !== 'undefined') {
+        try {
+            emailjs.init({ publicKey: config.publicKey });
+            await emailjs.send(config.serviceId, config.templateId, templateParams, {
+                publicKey: config.publicKey,
+                limitRate: { throttle: 0 }
+            });
+            return 'OK';
+        } catch (sdkError) {
+            console.warn('EmailJS SDK send failed, trying REST API.', sdkError);
+        }
+    }
+
+    const payload = {
+        service_id: config.serviceId,
+        template_id: config.templateId,
+        user_id: config.publicKey,
+        template_params: templateParams
+    };
+
+    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const text = (await response.text()).trim();
+    if (!response.ok) {
+        const message = text || `EmailJS request failed (${response.status})`;
+        const error = new Error(message);
+        error.text = message;
+        throw error;
+    }
+
+    return text;
 }
 
 function showToast(message, type = 'info') {

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Templates | Tech Hub Africa Campaign Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="toast-container"></div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="logo">
+                    <img src="assets/tha-logo.png" alt="Tech Hub Africa">
+                </div>
+                <h1>Templates</h1>
+            </div>
+            <nav class="app-nav" data-app-nav="templates"></nav>
+        </header>
+
+        <div class="glass-card">
+            <p class="field-hint">Save reusable subject lines and message bodies. Use <code>{{event_name}}</code> in a template to insert the selected event when you send.</p>
+
+            <form id="templateForm">
+                <input type="hidden" id="templateId">
+                <div class="form-section">
+                    <label for="templateName" class="form-label">Template name</label>
+                    <input type="text" id="templateName" class="modern-input" placeholder="e.g. Selection confirmation" required>
+                </div>
+                <div class="form-section">
+                    <label for="templateSubject" class="form-label">Subject</label>
+                    <input type="text" id="templateSubject" class="modern-input" placeholder="e.g. You are selected for {{event_name}}" required>
+                </div>
+                <div class="form-section">
+                    <label for="templateMessage" class="form-label">Message</label>
+                    <textarea id="templateMessage" class="modern-input" rows="8" placeholder="Write the reusable message..." required></textarea>
+                </div>
+                <div class="form-section">
+                    <label class="form-label">Organization logo</label>
+                    <p class="field-hint">Upload a logo for preview in this app, or paste a public <code>https://</code> image URL so it can appear in the email. Uploaded files are too large for EmailJS (50KB limit). For the logo in mail, EmailJS Content should use <code>{{{message_html}}}</code>.</p>
+                    <input type="url" id="templateLogoUrl" class="modern-input" placeholder="https://example.com/logo.png">
+                    <div class="row-actions tight-actions">
+                        <button type="button" class="btn-secondary btn-small" id="logoBrowseBtn">Upload logo</button>
+                        <button type="button" class="btn-secondary btn-small" id="logoClearBtn">Remove logo</button>
+                        <input type="file" id="templateLogoFile" accept="image/*" hidden>
+                    </div>
+                    <div id="logoPreviewWrap" class="logo-preview-wrap hidden">
+                        <img id="logoPreview" class="logo-preview" alt="Organization logo preview">
+                    </div>
+                </div>
+                <div class="form-actions wrap-actions">
+                    <button type="button" class="btn-secondary" id="resetTemplateBtn">New template</button>
+                    <button type="button" class="btn-secondary hidden" id="updateTemplateBtn">Update template</button>
+                    <button type="button" class="btn-secondary" id="downloadCurrentBtn">Download this template</button>
+                    <button type="submit" class="btn-primary" id="saveTemplateBtn">Save template</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="glass-card list-card">
+            <div class="settings-heading">
+                <h2>Saved templates</h2>
+                <div class="row-actions">
+                    <button type="button" class="btn-secondary btn-small" id="downloadAllBtn">Download all (JSON)</button>
+                    <button type="button" class="btn-secondary btn-small" id="importBtn">Import JSON</button>
+                    <input type="file" id="importFile" accept=".json,application/json" hidden>
+                </div>
+            </div>
+            <div id="templateList" class="item-list"></div>
+        </div>
+
+        <footer class="app-footer">
+            <p>Empowering Africa's tech ecosystem. Connect. Learn. Grow.</p>
+        </footer>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="store.js"></script>
+    <script src="ui.js"></script>
+    <script src="templates.js"></script>
+</body>
+</html>

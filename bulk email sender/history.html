@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History | Tech Hub Africa Campaign Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="toast-container"></div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="logo">
+                    <img src="assets/tha-logo.png" alt="Tech Hub Africa">
+                </div>
+                <h1>History</h1>
+            </div>
+            <nav class="app-nav" data-app-nav="history"></nav>
+        </header>
+
+        <div class="glass-card list-card">
+            <div class="settings-heading">
+                <h2>Campaign history</h2>
+                <button type="button" class="btn-secondary btn-small" id="clearHistoryBtn">Clear history</button>
+            </div>
+            <p class="field-hint">Each send is stored in this browser, including who was targeted and how many messages succeeded.</p>
+            <div id="historyList" class="item-list"></div>
+        </div>
+
+        <footer class="app-footer">
+            <p>Empowering Africa's tech ecosystem. Connect. Learn. Grow.</p>
+        </footer>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="store.js"></script>
+    <script src="ui.js"></script>
+    <script src="history.js"></script>
+</body>
+</html>

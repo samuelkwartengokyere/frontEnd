@@ -17,18 +17,11 @@
         <header class="app-header">
             <div class="header-brand">
                 <div class="logo">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-                    <span>Tech Hub Africa</span>
+                    <img src="assets/tha-logo.png" alt="Tech Hub Africa">
                 </div>
                 <h1>Campaign Studio</h1>
             </div>
-            <a href="settings.html" class="settings-link" aria-label="Open settings" title="Settings">
-                <span class="settings-status" id="configStatus">Not configured</span>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                </svg>
-            </a>
+            <nav class="app-nav" data-app-nav="campaign"></nav>
         </header>
 
         <div class="glass-card">
@@ -40,8 +33,16 @@
 
                 <div class="form-section">
                     <label for="senderEmail" class="form-label">Sender email (Reply-To)</label>
-                    <input type="email" id="senderEmail" class="modern-input" placeholder="e.g. info@techhubafrica.org" required>
-                    <p class="field-hint">Recipients reply to this address. The EmailJS connected mailbox still appears as the From address.</p>
+                    <input type="email" id="senderEmail" class="modern-input" placeholder="e.g. events@techhubafrica.org" required>
+                    <p class="field-hint">This is Reply-To. The visible From is the cPanel mailbox connected in EmailJS (events@techhubafrica.org). You can set Reply-To to events@ or another address. Test delivery with a second inbox, and check Spam.</p>
+                </div>
+
+                <div class="form-section">
+                    <label for="eventSelect" class="form-label">Event audience</label>
+                    <select id="eventSelect" class="modern-input">
+                        <option value="">One-off list (not saved to an event)</option>
+                    </select>
+                    <p class="field-hint">Choose Hackathon, Startup Pitch, or another event to load that group. Manage lists on the <a href="events.html">Events</a> page. Each address in Recipients gets its own email.</p>
                 </div>
 
                 <div class="form-section">
@@ -49,7 +50,7 @@
                         Recipients
                         <span class="badge" id="recipientCount">0 emails</span>
                     </label>
-                    <p class="field-hint">Paste addresses separated by commas, spaces, or new lines. Or upload a .csv / .txt file — every valid email in the file is extracted.</p>
+                    <p class="field-hint">Paste addresses or upload a file. If an event is selected, these people belong to that event.</p>
 
                     <div class="dropzone" id="dropzone">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -60,6 +61,23 @@
                     </div>
 
                     <textarea id="recipients" class="modern-input" rows="4" placeholder="user1@example.com, user2@example.com" required></textarea>
+                    <div class="row-actions tight-actions">
+                        <button type="button" class="btn-secondary btn-small" id="savePeopleBtn">Save people to selected event</button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label for="templateSelect" class="form-label">Message template</label>
+                    <select id="templateSelect" class="modern-input">
+                        <option value="">Write a new message</option>
+                    </select>
+                    <div class="row-actions tight-actions">
+                        <button type="button" class="btn-secondary btn-small" id="applyTemplateBtn">Apply template</button>
+                        <button type="button" class="btn-secondary btn-small" id="saveTemplateBtn">Save as template</button>
+                        <button type="button" class="btn-secondary btn-small" id="updateTemplateBtn">Update template</button>
+                        <button type="button" class="btn-secondary btn-small" id="downloadTemplateBtn">Download template</button>
+                    </div>
+                    <p class="field-hint">Templates are stored in this browser. Manage them on the <a href="templates.html">Templates</a> page. <code>{{event_name}}</code> becomes the selected event name.</p>
                 </div>
 
                 <div class="form-section">
@@ -70,6 +88,9 @@
                 <div class="form-section">
                     <label for="message" class="form-label">Message Body</label>
                     <textarea id="message" class="modern-input" rows="8" placeholder="Write your campaign message here..." required></textarea>
+                    <div id="campaignLogoPreviewWrap" class="logo-preview-wrap hidden">
+                        <img id="campaignLogoPreview" class="logo-preview" alt="Template logo preview">
+                    </div>
                 </div>
 
                 <div class="form-actions">
@@ -106,6 +127,8 @@
     </main>
 
     <script src="config.js"></script>
+    <script src="store.js"></script>
+    <script src="ui.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

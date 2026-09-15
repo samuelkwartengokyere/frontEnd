@@ -14,15 +14,12 @@
     <main class="app-container">
         <header class="app-header">
             <div class="header-brand">
-                <a href="index.html" class="back-link" aria-label="Back to campaign">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                </a>
                 <div class="logo">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-                    <span>Tech Hub Africa</span>
+                    <img src="assets/tha-logo.png" alt="Tech Hub Africa">
                 </div>
                 <h1>Settings</h1>
             </div>
+            <nav class="app-nav" data-app-nav="settings"></nav>
         </header>
 
         <div class="glass-card">
@@ -30,14 +27,19 @@
                 <h2>Email service</h2>
                 <span class="badge" id="configStatus">Not configured</span>
             </div>
+            <p class="setup-help hidden" id="builtInNotice">
+                EmailJS is already set in <code>config.js</code>. Campaign users do not need to enter keys. Edit that file to change them.
+            </p>
             <p class="setup-help">
-                This app sends through <strong>EmailJS</strong>. The mailbox you connect in EmailJS (Gmail, Outlook, etc.) is the actual <strong>From</strong> address. The sender email on the campaign form is used as <strong>Reply-To</strong>.
+                Signing up for EmailJS with <strong>events@techhubafrica.org</strong> only creates the EmailJS login. Mail is actually sent by the <strong>Email Service</strong> you connect. For cPanel, that must be <strong>Custom SMTP</strong> using the same mailbox, not Gmail.
             </p>
             <ol class="setup-steps">
-                <li>Create a free account at <a href="https://www.emailjs.com/" target="_blank" rel="noopener noreferrer">emailjs.com</a>.</li>
-                <li>Add an Email Service and connect the Gmail/Outlook account that should send the campaign.</li>
-                <li>Create a template whose <em>To</em> field is <code>{{to_email}}</code>, subject is <code>{{subject}}</code>, Reply-To is <code>{{reply_to}}</code>, and body includes <code>{{message}}</code> (optional: <code>{{from_name}}</code>).</li>
-                <li>Paste your Public Key, Service ID, and Template ID below. They are saved in this browser only.</li>
+                <li>In cPanel → Email Accounts → <em>Connect Devices</em> for <code>events@techhubafrica.org</code>, copy the outgoing SMTP host (often <code>mail.techhubafrica.org</code> or the server hostname).</li>
+                <li>In EmailJS → Email Services → Add Service → choose <strong>SMTP</strong> / Custom SMTP. Username: the full address <code>events@techhubafrica.org</code>. Password: that mailbox password. Port <strong>465</strong> (SSL) or <strong>587</strong> (TLS). Save and run the connection test.</li>
+                <li>Keep the template <strong>From Email</strong> as <em>Use Default Email Address</em> so From is <code>events@techhubafrica.org</code>. Reply-To stays <code>{{reply_to}}</code> — that can be events@ or another inbox.</li>
+                <li>On the template, click <strong>Test It</strong> and send to a personal Gmail/Outlook (not only events@). Then check EmailJS <strong>Email History</strong> and the test inbox Spam folder.</li>
+                <li>In cPanel, enable SPF and DKIM for techhubafrica.org so other inboxes do not bury the mail.</li>
+                <li>For logos, set Content to <code>{{{message_html}}}</code> (three braces).</li>
             </ol>
 
             <form id="settingsForm">
@@ -61,12 +63,38 @@
             </form>
         </div>
 
+        <div class="glass-card list-card">
+            <div class="settings-heading">
+                <h2>Default organization logo</h2>
+            </div>
+            <p class="field-hint">Used when a message template does not have its own logo. For the logo to appear in sent mail, paste a public <code>https://</code> URL (not an uploaded file). EmailJS allows only 50KB of template data.</p>
+            <form id="logoForm">
+                <div class="form-section">
+                    <label for="orgLogoUrl" class="form-label">Logo URL</label>
+                    <input type="url" id="orgLogoUrl" class="modern-input" placeholder="https://techhubafrica.org/logo.png">
+                    <div class="row-actions tight-actions">
+                        <button type="button" class="btn-secondary btn-small" id="orgLogoBrowseBtn">Upload logo</button>
+                        <button type="button" class="btn-secondary btn-small" id="orgLogoClearBtn">Remove</button>
+                        <input type="file" id="orgLogoFile" accept="image/*" hidden>
+                    </div>
+                    <div id="orgLogoPreviewWrap" class="logo-preview-wrap hidden">
+                        <img id="orgLogoPreview" class="logo-preview" alt="Default logo preview">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Save logo</button>
+                </div>
+            </form>
+        </div>
+
         <footer class="app-footer">
             <p>Empowering Africa's tech ecosystem. Connect. Learn. Grow.</p>
         </footer>
     </main>
 
     <script src="config.js"></script>
+    <script src="store.js"></script>
+    <script src="ui.js"></script>
     <script src="settings.js"></script>
 </body>
 </html>

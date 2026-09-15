@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | Tech Hub Africa Campaign Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="toast-container"></div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="logo">
+                    <img src="assets/tha-logo.png" alt="Tech Hub Africa">
+                </div>
+                <h1>Events</h1>
+            </div>
+            <nav class="app-nav" data-app-nav="events"></nav>
+        </header>
+
+        <div class="glass-card">
+            <p class="field-hint">Create an event (Hackathon, Startup Pitch, and so on), then attach the people chosen for that event. Campaigns can send only to that event’s list.</p>
+
+            <form id="eventForm">
+                <input type="hidden" id="eventId">
+                <div class="form-section">
+                    <label for="eventName" class="form-label">Event name</label>
+                    <input type="text" id="eventName" class="modern-input" placeholder="e.g. Hackathon" required>
+                </div>
+                <div class="form-section">
+                    <label for="eventDescription" class="form-label">Description (optional)</label>
+                    <input type="text" id="eventDescription" class="modern-input" placeholder="e.g. Selected participants for the 2026 hackathon">
+                </div>
+                <div class="form-section">
+                    <label class="form-label">
+                        People in this event
+                        <span class="badge" id="eventRecipientCount">0 emails</span>
+                    </label>
+                    <div class="dropzone" id="eventDropzone">
+                        <p>Drop a <strong>.csv</strong> or <strong>.txt</strong> file of chosen people</p>
+                        <span>or</span>
+                        <button type="button" class="btn-browse" id="eventBrowseBtn">Browse Files</button>
+                        <input type="file" id="eventFileInput" accept=".csv,.txt,text/csv,text/plain" hidden>
+                    </div>
+                    <textarea id="eventEmails" class="modern-input" rows="5" placeholder="one email per line, or comma-separated"></textarea>
+                </div>
+                <div class="form-actions wrap-actions">
+                    <button type="button" class="btn-secondary" id="resetEventBtn">New event</button>
+                    <button type="button" class="btn-secondary hidden" id="updateEventBtn">Update event</button>
+                    <button type="submit" class="btn-primary" id="saveEventBtn">Save event</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="glass-card list-card">
+            <div class="settings-heading">
+                <h2>Saved events</h2>
+            </div>
+            <div id="eventList" class="item-list"></div>
+        </div>
+
+        <footer class="app-footer">
+            <p>Empowering Africa's tech ecosystem. Connect. Learn. Grow.</p>
+        </footer>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="store.js"></script>
+    <script src="ui.js"></script>
+    <script src="events.js"></script>
+</body>
+</html>
