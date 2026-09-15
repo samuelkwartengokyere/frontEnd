@@ -34,25 +34,25 @@
                 <div class="form-section">
                     <label for="fromEmail" class="form-label">From email (sending mailbox)</label>
                     <input type="email" id="fromEmail" class="modern-input" placeholder="e.g. events@techhubafrica.org" required>
-                    <p class="field-hint">This is who the message is <strong>from</strong>. It does not have to stay as events@ — you can use info@, hello@, or another address. That mailbox must exist in cPanel, and EmailJS From Email must be <code>{{from_email}}</code> (uncheck Use Default Email Address). If SMTP only allows the logged-in mailbox, other From addresses will bounce.</p>
+                    <!-- <p class="field-hint">Changing this box is not enough until EmailJS From Email is <code>{{from_email}}</code> and <em>Use Default Email Address</em> is unchecked. Otherwise every message still shows as events@techhubafrica.org.</p> -->
                 </div>
 
                 <div class="form-section">
                     <label for="senderEmail" class="form-label">Reply-To email</label>
                     <input type="email" id="senderEmail" class="modern-input" placeholder="e.g. events@techhubafrica.org" required>
-                    <p class="field-hint">Replies go here. This can be a different address from From. Example: send from events@ and collect replies at info@.</p>
+                    <p class="field-hint">Replies go here. This can differ from From.</p>
                 </div>
 
-                <div class="notice-card">
+                <!-- <div class="notice-card">
                     <strong>If Gmail never shows the mail:</strong> EmailJS History already said OK, so this app is not blocking delivery. Check cPanel Track Delivery, enable SPF/DKIM, then search Gmail for <code>from:techhubafrica.org</code>. Gmail often drops mail from new cPanel IPs instead of placing it in Spam.
-                </div>
+                </div> -->
 
                 <div class="form-section">
                     <label for="eventSelect" class="form-label">Event audience</label>
                     <select id="eventSelect" class="modern-input">
                         <option value="">One-off list (not saved to an event)</option>
                     </select>
-                    <p class="field-hint">Choose Hackathon, Startup Pitch, or another event to load that group. Manage lists on the <a href="events.html">Events</a> page. Each address in Recipients gets its own email.</p>
+                    <!-- <p class="field-hint">Choose Hackathon, Startup Pitch, or another event to load that group. Manage lists on the <a href="events.html">Events</a> page. Each address in Recipients gets its own email.</p> -->
                 </div>
 
                 <div class="form-section">
@@ -87,7 +87,7 @@
                         <button type="button" class="btn-secondary btn-small" id="updateTemplateBtn">Update template</button>
                         <button type="button" class="btn-secondary btn-small" id="downloadTemplateBtn">Download template</button>
                     </div>
-                    <p class="field-hint">Templates are stored in this browser. Manage them on the <a href="templates.html">Templates</a> page. <code>{{event_name}}</code> becomes the selected event name.</p>
+                    <!-- <p class="field-hint">Templates are stored in this browser. Manage them on the <a href="templates.html">Templates</a> page. <code>{{event_name}}</code> becomes the selected event name.</p> -->
                 </div>
 
                 <div class="form-section">

@@ -426,6 +426,10 @@ class BulkMailerApp {
             return;
         }
 
+        if (fromEmail.toLowerCase() !== DEFAULT_SENDER.senderEmail.toLowerCase()) {
+            showToast('From will stay events@ until EmailJS From Email is {{from_email}} and Use Default is unchecked.', 'info');
+        }
+
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(senderEmail)) {
             showToast('Please enter a valid Reply-To email.', 'error');
             this.DOM.senderEmail.focus();
@@ -443,10 +447,11 @@ class BulkMailerApp {
         }
 
         this.persistCampaignFields();
-        const logoUrl = resolveSendableLogo(this.selectedTemplate());
-        const previewLogo = resolveLogo(this.selectedTemplate());
-        if (previewLogo && !logoUrl) {
-            showToast('Uploaded logos cannot be emailed (EmailJS 50KB limit). The message will send without the image unless you add a public https logo URL.', 'info');
+        const logoUrl = await resolveSendableLogo(this.selectedTemplate());
+        if (!logoUrl) {
+            showToast('No logo could be attached. Add a compact image or a public https URL on Templates.', 'info');
+        } else if (!isPublicLogoUrl(logoUrl) && isCompactLogoDataUrl(logoUrl)) {
+            showToast('Logo included. In EmailJS, Content must be {{{message_html}}} (three braces) or the image will not show.', 'info');
         }
         if (event) {
             upsertEvent({

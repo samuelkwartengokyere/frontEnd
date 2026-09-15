@@ -85,17 +85,21 @@ function isPublicLogoUrl(value) {
 
 function recipientTemplateParams(recipient, extra = {}) {
     const message = extra.message || '';
-    const logoUrl = isPublicLogoUrl(extra.logo_url) ? extra.logo_url.trim() : '';
+    const rawLogo = String(extra.logo_url || '').trim();
+    const publicLogo = isPublicLogoUrl(rawLogo) ? rawLogo : '';
+    const html = extra.message_html || buildMessageHtml(message, rawLogo);
     return {
         to_email: recipient,
         to_name: extra.to_name || recipient,
         from_name: extra.from_name || 'Tech Hub Africa',
         from_email: extra.from_email || extra.reply_to || '',
+        from: extra.from_email || extra.reply_to || '',
+        sender_email: extra.from_email || extra.reply_to || '',
         reply_to: extra.reply_to || extra.from_email || '',
         subject: extra.subject || '',
         message,
-        message_html: extra.message_html || buildMessageHtml(message, logoUrl),
-        logo_url: logoUrl,
+        message_html: html,
+        logo_url: publicLogo,
         event_name: extra.event_name || ''
     };
 }

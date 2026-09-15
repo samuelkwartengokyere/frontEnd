@@ -62,12 +62,24 @@ function isPublicLogoUrl(value) {
     return /^https?:\/\//i.test(String(value || '').trim());
 }
 
+function isCompactLogoDataUrl(value) {
+    const logo = String(value || '').trim();
+    return /^data:image\/(jpeg|jpg|png|gif|webp);base64,/i.test(logo) && logo.length < 28000;
+}
+
+function isEmbeddableLogo(value) {
+    return isPublicLogoUrl(value) || isCompactLogoDataUrl(value);
+}
+
 function buildMessageHtml(message, logoUrl) {
     const body = escapeHtml(message).replace(/\n/g, '<br>');
-    const safeLogo = isPublicLogoUrl(logoUrl) ? escapeHtml(logoUrl.trim()) : '';
-    const image = safeLogo
-        ? `<p><img src="${safeLogo}" alt="Organization logo" style="max-width:180px;height:auto;margin:0 0 16px 0;display:block;" /></p>`
-        : '';
+    let image = '';
+    const logo = String(logoUrl || '').trim();
+    if (isPublicLogoUrl(logo)) {
+        image = `<p><img src="${escapeHtml(logo)}" alt="Tech Hub Africa" style="max-width:220px;height:auto;margin:0 0 16px 0;display:block;" /></p>`;
+    } else if (isCompactLogoDataUrl(logo)) {
+        image = `<p><img src="${logo}" alt="Tech Hub Africa" style="max-width:220px;height:auto;margin:0 0 16px 0;display:block;" /></p>`;
+    }
     return `${image}<div style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.55;color:#0f172a;">${body}</div>`;
 }
 
@@ -77,17 +89,43 @@ function resolveLogo(template) {
         (template && (template.logoUrl || template.logoDataUrl)) ||
         org.logoUrl ||
         org.logoDataUrl ||
-        ''
+        'assets/tha-logo.png'
     );
 }
 
-function resolveSendableLogo(template) {
+let brandLogoDataUrlPromise = null;
+
+function getBrandLogoDataUrl() {
+    if (!brandLogoDataUrlPromise) {
+        brandLogoDataUrlPromise = fetch('assets/tha-logo-email.jpg')
+            .then((response) => {
+                if (!response.ok) throw new Error('Logo file missing');
+                return response.blob();
+            })
+            .then((blob) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result || ''));
+                reader.onerror = () => reject(new Error('Could not read logo'));
+                reader.readAsDataURL(blob);
+            }))
+            .catch(() => '');
+    }
+    return brandLogoDataUrlPromise;
+}
+
+async function resolveSendableLogo(template) {
     const org = typeof loadCampaignConfig === 'function' ? loadCampaignConfig() : {};
     const candidates = [
         template && template.logoUrl,
-        org.logoUrl
+        org.logoUrl,
+        template && template.logoDataUrl,
+        org.logoDataUrl
     ];
-    return candidates.find((value) => isPublicLogoUrl(value)) || '';
+    const hosted = candidates.find((value) => isPublicLogoUrl(value));
+    if (hosted) return hosted.trim();
+    const compact = candidates.find((value) => isCompactLogoDataUrl(value));
+    if (compact) return compact.trim();
+    return getBrandLogoDataUrl();
 }
 
 function fileToLogoDataUrl(file) {
@@ -99,14 +137,17 @@ function fileToLogoDataUrl(file) {
         const image = new Image();
         const objectUrl = URL.createObjectURL(file);
         image.onload = () => {
-            const max = 360;
+            const max = 280;
             const scale = Math.min(1, max / Math.max(image.width, 1));
             const canvas = document.createElement('canvas');
             canvas.width = Math.max(1, Math.round(image.width * scale));
             canvas.height = Math.max(1, Math.round(image.height * scale));
-            canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+            const context = canvas.getContext('2d');
+            context.fillStyle = '#ffffff';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
             URL.revokeObjectURL(objectUrl);
-            resolve(canvas.toDataURL('image/png'));
+            resolve(canvas.toDataURL('image/jpeg', 0.55));
         };
         image.onerror = () => {
             URL.revokeObjectURL(objectUrl);
