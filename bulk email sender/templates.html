@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Templates | Tech Hub Africa Campaign Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>try{if(sessionStorage.getItem('tha_loader_nav'))document.documentElement.classList.add('is-nav-loading')}catch(e){}</script>
 </head>
-<body>
+<body class="is-app-loading">
+    <div id="app-loader" class="app-loader" role="status" aria-live="polite">
+        <div class="app-loader-card">
+            <div class="logo">
+                <img src="assets/tha-logo.png" alt="Tech Hub Africa">
+            </div>
+            <div class="app-loader-orbit" aria-hidden="true"><span></span></div>
+            <p class="app-loader-title">Campaign Studio</p>
+            <p class="app-loader-status">Loading Templates…</p>
+            <div class="app-loader-track"><span class="app-loader-fill"></span></div>
+        </div>
+    </div>
     <div id="toast-container"></div>
 
     <main class="app-container">
@@ -22,27 +34,33 @@
             <nav class="app-nav" data-app-nav="templates"></nav>
         </header>
 
+        <div class="page-hero">
+            <p class="page-kicker">Voice</p>
+            <p class="page-lead">Keep subjects and messages ready, so the next campaign starts from a familiar draft.</p>
+        </div>
+
         <div class="glass-card">
-            <p class="field-hint">Save reusable subject lines and message bodies. Use <code>{{event_name}}</code> in a template to insert the selected event when you send.</p>
+            <!-- <p class="field-hint">Save reusable subject lines and message bodies. Use <code>{{event_name}}</code> in a template to insert the selected event when you send.</p> -->
 
             <form id="templateForm">
                 <input type="hidden" id="templateId">
                 <div class="form-section">
                     <label for="templateName" class="form-label">Template name</label>
-                    <input type="text" id="templateName" class="modern-input" placeholder="e.g. Selection confirmation" required>
+                    <input type="text" id="templateName" class="modern-input" placeholder="Template name" required>
                 </div>
                 <div class="form-section">
                     <label for="templateSubject" class="form-label">Subject</label>
-                    <input type="text" id="templateSubject" class="modern-input" placeholder="e.g. You are selected for {{event_name}}" required>
+                    <input type="text" id="templateSubject" class="modern-input" placeholder="Email subject" required>
                 </div>
                 <div class="form-section">
                     <label for="templateMessage" class="form-label">Message</label>
-                    <textarea id="templateMessage" class="modern-input" rows="8" placeholder="Write the reusable message..." required></textarea>
+                    <textarea id="templateMessage" class="modern-input" rows="8" placeholder="Reusable message body" required></textarea>
+                    <p class="field-hint">Use <code>{{to_name}}</code> for the recipient’s name, or leave it out and Campaign Studio will add <code>Dear [Name]</code> when sending.</p>
                 </div>
                 <div class="form-section">
                     <label class="form-label">Organization logo</label>
-                    <p class="field-hint">The Tech Hub Africa logo is attached automatically when you send. You can override it with a compact upload or a public <code>https://</code> URL. EmailJS Content must be <code>{{{message_html}}}</code> for the image to show.</p>
-                    <input type="url" id="templateLogoUrl" class="modern-input" placeholder="https://example.com/logo.png">
+                    <!-- <p class="field-hint">The Tech Hub Africa logo is attached automatically when you send. You can override it with a compact upload or a public <code>https://</code> URL. EmailJS Content must be <code>{{{message_html}}}</code> for the image to show.</p> -->
+                    <input type="url" id="templateLogoUrl" class="modern-input" placeholder="Public https:// logo URL">
                     <div class="row-actions tight-actions">
                         <button type="button" class="btn-secondary btn-small" id="logoBrowseBtn">Upload logo</button>
                         <button type="button" class="btn-secondary btn-small" id="logoClearBtn">Remove logo</button>
@@ -70,6 +88,7 @@
                     <input type="file" id="importFile" accept=".json,application/json" hidden>
                 </div>
             </div>
+            <p class="field-hint">Saved templates are shared. Other people using this hosted studio can see them.</p>
             <div id="templateList" class="item-list"></div>
         </div>
 

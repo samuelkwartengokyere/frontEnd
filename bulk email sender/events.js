@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateBtn = document.getElementById('updateEventBtn');
 
     const updateCount = () => {
-        const emails = extractEmails(eventEmails.value);
-        eventRecipientCount.textContent = `${emails.length} valid email${emails.length !== 1 ? 's' : ''}`;
+        const people = parseRecipients(eventEmails.value);
+        const named = people.filter((person) => person.name).length;
+        eventRecipientCount.textContent = named
+            ? `${people.length} recipient${people.length !== 1 ? 's' : ''} (${named} named)`
+            : `${people.length} valid email${people.length !== 1 ? 's' : ''}`;
     };
 
     const resetForm = () => {
@@ -31,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         eventId.value = event.id;
         eventName.value = event.name;
         eventDescription.value = event.description || '';
-        eventEmails.value = (event.emails || []).join('\n');
+        eventEmails.value = formatPeopleList(event.people || event.emails || []);
         updateBtn.classList.remove('hidden');
         updateCount();
         eventName.focus();
@@ -101,27 +104,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const mergeFile = (file) => {
-        if (!file.name.match(/\.(csv|txt)$/i)) {
-            showToast('Please upload a .csv or .txt file', 'error');
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const combined = eventEmails.value ? `${eventEmails.value}\n${e.target.result}` : e.target.result;
-            const emails = extractEmails(combined);
-            eventEmails.value = emails.join('\n');
+    const mergeFile = async (file) => {
+        try {
+            const result = await extractEmailsFromUpload(file);
+            const people = uniquePeople([
+                ...parseRecipients(eventEmails.value),
+                ...(result.people || result.emails.map((email) => ({ name: '', email })))
+            ]);
+            eventEmails.value = formatPeopleList(people);
             updateCount();
-            showToast(`Loaded ${emails.length} emails from ${file.name}`, 'success');
-        };
-        reader.readAsText(file);
+            if (!people.length) {
+                showToast(`No email addresses were found in ${file.name}. Use Name and Email columns.`, 'error');
+                return;
+            }
+            const named = people.filter((person) => person.name).length;
+            const via = result.columnLabel ? ` from “${result.columnLabel}”` : '';
+            showToast(
+                `Loaded ${result.emails.length} recipient${result.emails.length !== 1 ? 's' : ''}${via} in ${file.name}${named ? ` (${named} with names)` : ''}.`,
+                'success'
+            );
+        } catch (err) {
+            showToast(err && err.message ? err.message : 'Could not read that file.', 'error');
+        }
     };
 
-    const readEvent = () => ({
-        name: eventName.value.trim(),
-        description: eventDescription.value.trim(),
-        emails: eventEmails.value
-    });
+    const readEvent = () => {
+        const people = parseRecipients(eventEmails.value);
+        return {
+            name: eventName.value.trim(),
+            description: eventDescription.value.trim(),
+            people,
+            emails: people.map((person) => person.email)
+        };
+    };
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -181,12 +196,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.dataTransfer.files[0]) mergeFile(e.dataTransfer.files[0]);
     });
 
-    const editId = new URLSearchParams(window.location.search).get('id');
-    if (editId) {
-        const existing = getEvent(editId);
-        if (existing) loadEventIntoForm(existing);
-    }
-
     updateCount();
-    renderList();
+
+    document.addEventListener('tha-library-changed', () => {
+        renderList();
+    });
+
+    const showSharedEvents = () => {
+        const editId = new URLSearchParams(window.location.search).get('id');
+        if (editId && !eventId.value) {
+            const existing = getEvent(editId);
+            if (existing) loadEventIntoForm(existing);
+        }
+        renderList();
+    };
+
+    if (typeof whenSharedLibraryReady === 'function') {
+        whenSharedLibraryReady().then(showSharedEvents);
+    } else {
+        showSharedEvents();
+    }
 });

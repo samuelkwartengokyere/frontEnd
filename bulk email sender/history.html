@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History | Tech Hub Africa Campaign Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>try{if(sessionStorage.getItem('tha_loader_nav'))document.documentElement.classList.add('is-nav-loading')}catch(e){}</script>
 </head>
-<body>
+<body class="is-app-loading">
+    <div id="app-loader" class="app-loader" role="status" aria-live="polite">
+        <div class="app-loader-card">
+            <div class="logo">
+                <img src="assets/tha-logo.png" alt="Tech Hub Africa">
+            </div>
+            <div class="app-loader-orbit" aria-hidden="true"><span></span></div>
+            <p class="app-loader-title">Campaign Studio</p>
+            <p class="app-loader-status">Loading History…</p>
+            <div class="app-loader-track"><span class="app-loader-fill"></span></div>
+        </div>
+    </div>
     <div id="toast-container"></div>
 
     <main class="app-container">
@@ -22,12 +34,41 @@
             <nav class="app-nav" data-app-nav="history"></nav>
         </header>
 
+        <div class="page-hero">
+            <p class="page-kicker">Archive</p>
+            <p class="page-lead">Search past sends, see who opened them, and keep the record tidy.</p>
+        </div>
+
         <div class="glass-card list-card">
             <div class="settings-heading">
                 <h2>Campaign history</h2>
-                <button type="button" class="btn-secondary btn-small" id="clearHistoryBtn">Clear history</button>
+                <div class="history-actions">
+                    <button type="button" class="btn-secondary btn-small" id="deleteSelectedBtn" disabled>Delete selected</button>
+                    <button type="button" class="btn-secondary btn-small" id="clearHistoryBtn">Clear all</button>
+                </div>
             </div>
-            <p class="field-hint">Each send is stored in this browser, including who was targeted and how many messages succeeded.</p>
+            <p class="field-hint">Each send is saved in MySQL and kept in this browser. Filter, search, open a message, or select specific messages to delete. Opened status updates after a recipient loads images in the email.</p>
+            <div class="history-toolbar">
+                <label class="history-search-label" for="historySearch">
+                    <span class="visually-hidden">Search recipient email</span>
+                    <input type="search" id="historySearch" class="modern-input" placeholder="Search recipient email" autocomplete="off">
+                </label>
+                <div class="history-status-filters" role="group" aria-label="Filter by delivery status">
+                    <button type="button" class="btn-secondary btn-small is-active" data-status="all">All</button>
+                    <button type="button" class="btn-secondary btn-small" data-status="sent">Sent</button>
+                    <button type="button" class="btn-secondary btn-small" data-status="opened">Opened</button>
+                    <button type="button" class="btn-secondary btn-small" data-status="failed">Failed</button>
+                </div>
+            </div>
+            <div class="history-select-bar">
+                <label class="history-select-all">
+                    <input type="checkbox" id="selectVisibleBox">
+                    <span>Select visible</span>
+                </label>
+                <button type="button" class="btn-secondary btn-small" id="refreshOpensBtn">Refresh opens</button>
+            </div>
+            <p id="openTrackHint" class="field-hint hidden"></p>
+            <p id="historyResultCount" class="field-hint history-result-count"></p>
             <div id="historyList" class="item-list"></div>
         </div>
 
@@ -35,6 +76,48 @@
             <p>Empowering Africa's tech ecosystem. Connect. Learn. Grow.</p>
         </footer>
     </main>
+
+    <div id="messageDialog" class="message-dialog hidden" role="dialog" aria-modal="true" aria-labelledby="messageDialogTitle">
+        <div class="message-dialog-backdrop" data-close-message></div>
+        <section class="message-dialog-card glass-card">
+            <div class="settings-heading">
+                <h2 id="messageDialogTitle">Message</h2>
+                <button type="button" class="btn-secondary btn-small" id="closeMessageDialog">Close</button>
+            </div>
+            <dl class="message-letter-meta">
+                <div>
+                    <dt>To</dt>
+                    <dd id="messageDialogTo"></dd>
+                </div>
+                <div>
+                    <dt>Status</dt>
+                    <dd id="messageDialogStatus"></dd>
+                </div>
+                <div>
+                    <dt>Opened</dt>
+                    <dd id="messageDialogOpened"></dd>
+                </div>
+                <div>
+                    <dt>Subject</dt>
+                    <dd id="messageDialogSubject"></dd>
+                </div>
+                <div>
+                    <dt>From</dt>
+                    <dd id="messageDialogFrom"></dd>
+                </div>
+                <div>
+                    <dt>Sent</dt>
+                    <dd id="messageDialogWhen"></dd>
+                </div>
+                <div id="messageDialogAttachmentsWrap">
+                    <dt>Attachments</dt>
+                    <dd id="messageDialogAttachments"></dd>
+                </div>
+            </dl>
+            <p id="messageDialogNotice" class="field-hint hidden"></p>
+            <div class="message-letter-body" id="messageDialogBody"></div>
+        </section>
+    </div>
 
     <script src="config.js"></script>
     <script src="store.js"></script>

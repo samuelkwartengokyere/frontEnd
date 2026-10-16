@@ -230,11 +230,22 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.value = '';
     });
 
-    const editId = new URLSearchParams(window.location.search).get('id');
-    if (editId) {
-        const existing = getTemplate(editId);
-        if (existing) loadTemplateIntoForm(existing);
-    }
+    document.addEventListener('tha-library-changed', () => {
+        renderList();
+    });
 
-    renderList();
+    const showSharedTemplates = () => {
+        const editId = new URLSearchParams(window.location.search).get('id');
+        if (editId && !templateId.value) {
+            const existing = getTemplate(editId);
+            if (existing) loadTemplateIntoForm(existing);
+        }
+        renderList();
+    };
+
+    if (typeof whenSharedLibraryReady === 'function') {
+        whenSharedLibraryReady().then(showSharedTemplates);
+    } else {
+        showSharedTemplates();
+    }
 });

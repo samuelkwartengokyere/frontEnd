@@ -5,11 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Hub Africa | Campaign Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>try{if(sessionStorage.getItem('tha_loader_nav'))document.documentElement.classList.add('is-nav-loading')}catch(e){}</script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
-<body>
+<body class="is-app-loading">
+
+    <div id="app-loader" class="app-loader" role="status" aria-live="polite">
+        <div class="app-loader-card">
+            <div class="logo">
+                <img src="assets/tha-logo.png" alt="Tech Hub Africa">
+            </div>
+            <div class="app-loader-orbit" aria-hidden="true"><span></span></div>
+            <p class="app-loader-title">Campaign Studio</p>
+            <p class="app-loader-status">Preparing workspace…</p>
+            <div class="app-loader-track"><span class="app-loader-fill"></span></div>
+        </div>
+    </div>
 
     <div id="toast-container"></div>
 
@@ -24,28 +38,67 @@
             <nav class="app-nav" data-app-nav="campaign"></nav>
         </header>
 
+        <div class="page-hero">
+            <p class="page-kicker">Compose</p>
+            <p class="page-lead">Shape the sender, the audience, and the message, then launch at a pace inboxes can keep.</p>
+        </div>
+
         <div class="glass-card">
             <form id="emailForm">
+                <section class="studio-panel">
+                    <header class="studio-panel-head">
+                        <span class="studio-step">01</span>
+                        <div>
+                            <h2>Sender</h2>
+                            <p>The name and mailbox people will see.</p>
+                        </div>
+                    </header>
+
+                <div class="field-pair">
                 <div class="form-section">
                     <label for="fromName" class="form-label">Sender name</label>
-                    <input type="text" id="fromName" class="modern-input" placeholder="e.g. Tech Hub Africa" required>
+                    <input type="text" id="fromName" class="modern-input" placeholder="Sender display name" required>
                 </div>
 
                 <div class="form-section">
                     <label for="fromEmail" class="form-label">From email (sending mailbox)</label>
-                    <input type="email" id="fromEmail" class="modern-input" placeholder="e.g. events@techhubafrica.org" required>
+                    <input type="email" id="fromEmail" class="modern-input" placeholder="Sending mailbox" required>
                     <!-- <p class="field-hint">Changing this box is not enough until EmailJS From Email is <code>{{from_email}}</code> and <em>Use Default Email Address</em> is unchecked. Otherwise every message still shows as events@techhubafrica.org.</p> -->
+                </div>
                 </div>
 
                 <div class="form-section">
+                    <label class="switch-row" for="repliesEnabled">
+                        <span class="switch">
+                            <input type="checkbox" id="repliesEnabled" checked>
+                            <span class="switch-ui" aria-hidden="true"></span>
+                        </span>
+                        <span class="switch-copy">
+                            <span class="switch-title">Allow replies</span>
+                            <!-- <span class="field-hint">When on, recipients can reply to the address below. Turn it off to prefix the subject with <code>NoReply:</code> and start the message with “This inbox is not monitored…”, so the inbox list shows it is non-repliable before anyone opens it.</span> -->
+                        </span>
+                    </label>
+                </div>
+
+                <div class="form-section" id="replyToSection">
                     <label for="senderEmail" class="form-label">Reply-To email</label>
-                    <input type="email" id="senderEmail" class="modern-input" placeholder="e.g. events@techhubafrica.org" required>
+                    <input type="email" id="senderEmail" class="modern-input" placeholder="Reply address" required>
                     <p class="field-hint">Replies go here. This can differ from From.</p>
                 </div>
+                </section>
 
                 <!-- <div class="notice-card">
                     <strong>If Gmail never shows the mail:</strong> EmailJS History already said OK, so this app is not blocking delivery. Check cPanel Track Delivery, enable SPF/DKIM, then search Gmail for <code>from:techhubafrica.org</code>. Gmail often drops mail from new cPanel IPs instead of placing it in Spam.
                 </div> -->
+
+                <section class="studio-panel">
+                    <header class="studio-panel-head">
+                        <span class="studio-step">02</span>
+                        <div>
+                            <h2>Audience</h2>
+                            <p>One event list, or a one-off group for this send.</p>
+                        </div>
+                    </header>
 
                 <div class="form-section">
                     <label for="eventSelect" class="form-label">Event audience</label>
@@ -60,21 +113,31 @@
                         Recipients
                         <span class="badge" id="recipientCount">0 emails</span>
                     </label>
-                    <p class="field-hint">Paste addresses or upload a file. If an event is selected, these people belong to that event.</p>
+                    <p class="field-hint">Paste one person per line as <code>Name, email</code> or <code>Name-email</code>, or upload a spreadsheet with Name and Email columns.</p>
 
                     <div class="dropzone" id="dropzone">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                        <p>Drag & drop a <strong>.csv</strong> or <strong>.txt</strong> file here</p>
+                        <p>Drag & drop a <strong>.csv</strong>, <strong>.txt</strong>, or <strong>Excel</strong> file here</p>
                         <span>or</span>
                         <button type="button" class="btn-browse" id="browseBtn">Browse Files</button>
-                        <input type="file" id="fileInput" accept=".csv,.txt,text/csv,text/plain" hidden>
+                        <input type="file" id="fileInput" accept=".csv,.txt,.tsv,.xlsx,.xls,.ods,text/csv,text/plain,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
                     </div>
 
-                    <textarea id="recipients" class="modern-input" rows="4" placeholder="user1@example.com, user2@example.com" required></textarea>
+                    <textarea id="recipients" class="modern-input" rows="4" placeholder="Name, email@example.com&#10;Name-email@example.com" required></textarea>
                     <div class="row-actions tight-actions">
                         <button type="button" class="btn-secondary btn-small" id="savePeopleBtn">Save people to selected event</button>
                     </div>
                 </div>
+                </section>
+
+                <section class="studio-panel">
+                    <header class="studio-panel-head">
+                        <span class="studio-step">03</span>
+                        <div>
+                            <h2>Message</h2>
+                            <p>Start from a template, or write this letter fresh.</p>
+                        </div>
+                    </header>
 
                 <div class="form-section">
                     <label for="templateSelect" class="form-label">Message template</label>
@@ -92,16 +155,90 @@
 
                 <div class="form-section">
                     <label for="subject" class="form-label">Subject Line</label>
-                    <input type="text" id="subject" class="modern-input" placeholder="e.g., Join the Tech Guru Meetup 2026!" required>
+                    <input type="text" id="subject" class="modern-input" placeholder="Campaign subject" required>
                 </div>
 
                 <div class="form-section">
                     <label for="message" class="form-label">Message Body</label>
-                    <textarea id="message" class="modern-input" rows="8" placeholder="Write your campaign message here..." required></textarea>
+                    <textarea id="message" class="modern-input" rows="8" placeholder="Campaign message" required></textarea>
+                    <p class="field-hint">Each named recipient is greeted as <code>Dear Samuel Okyere</code>. You can also place <code>{{to_name}}</code> in the message yourself.</p>
                     <div id="campaignLogoPreviewWrap" class="logo-preview-wrap hidden">
                         <img id="campaignLogoPreview" class="logo-preview" alt="Template logo preview">
                     </div>
                 </div>
+                </section>
+
+                <section class="studio-panel">
+                    <header class="studio-panel-head">
+                        <span class="studio-step">04</span>
+                        <div>
+                            <h2>Attachments</h2>
+                            <p>Optional files, kept small enough to travel with the letter.</p>
+                        </div>
+                    </header>
+
+                <div class="form-section">
+                    <label class="form-label">
+                        Attachments
+                        <span class="badge">Optional</span>
+                    </label>
+                    <p class="field-hint">Add documents only if this campaign needs them. You can send without any files. Each file must be 500 KB or smaller so EmailJS includes it in the inbox.</p>
+                    <div class="dropzone" id="attachmentDropzone">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                        <p>Drag & drop files here</p>
+                        <span>or</span>
+                        <button type="button" class="btn-browse" id="attachmentBrowseBtn">Choose files</button>
+                        <input type="file" id="attachmentInput" multiple hidden>
+                    </div>
+                    <ul id="attachmentList" class="attachment-list"></ul>
+                </div>
+                </section>
+
+                <section class="studio-panel">
+                    <header class="studio-panel-head">
+                        <span class="studio-step">05</span>
+                        <div>
+                            <h2>Delivery</h2>
+                            <p>Send the full list now, or pace it in batches.</p>
+                        </div>
+                    </header>
+
+                <div class="form-section">
+                    <label class="form-label">Sending mode</label>
+                    <div class="send-mode-pills" role="radiogroup" aria-label="Sending mode">
+                        <label class="send-mode-pill">
+                            <input type="radio" name="sendMode" id="sendModeImmediate" value="immediate" checked>
+                            <span>Send now</span>
+                        </label>
+                        <label class="send-mode-pill">
+                            <input type="radio" name="sendMode" id="sendModeBatch" value="batch">
+                            <span>Batch send</span>
+                        </label>
+                    </div>
+                    <p class="field-hint">Send now and batch both send the full list, with a pause between messages so inboxes are more likely to keep them. “Accepted” means the mail service took the message. If it is missing, check Spam and Promotions, or search <code>from:techhubafrica.org</code>. EmailJS Free still allows <strong>200 requests per month</strong>.</p>
+
+                    <div id="batchSettings" class="batch-settings hidden">
+                        <div class="batch-fields">
+                            <div class="form-section">
+                                <label for="batchSize" class="form-label">Emails per batch</label>
+                                <input type="number" id="batchSize" class="modern-input" min="1" max="1000" step="1" value="20" placeholder="Count">
+                                <!-- <p class="field-hint" id="batchSizeHint">This is how many addresses go in each batch. You can change it after the list is loaded.</p> -->
+                            </div>
+                            <div class="form-section">
+                                <label for="batchInterval" class="form-label">Minutes between batches</label>
+                                <input type="number" id="batchInterval" class="modern-input" min="1" max="120" step="1" value="2" placeholder="Minutes">
+                                <!-- <p class="field-hint" id="batchIntervalHint">Wait this many minutes after a batch is sent before the next one starts. You can change this anytime before launch.</p> -->
+                            </div>
+                        </div>
+                        <!-- <p class="field-hint" id="batchPreview">Enter recipients and emails per batch. The list is grouped into Batch 1, Batch 2, and so on automatically. After a batch is sent, the next wait starts. Keep this tab open until every batch is done.</p> -->
+                        <div class="batch-groups-heading hidden" id="batchGroupsHeading">
+                            <span class="form-label">Grouped batches</span>
+                            <span class="badge" id="batchGroupCount">0 batches</span>
+                        </div>
+                        <div id="batchList" class="batch-list hidden"></div>
+                    </div>
+                </div>
+                </section>
 
                 <div class="form-actions">
                     <button type="button" class="btn-secondary" id="clearBtn">Clear All</button>
@@ -120,12 +257,17 @@
                     <span id="progressStatus">Initializing...</span>
                     <span id="progressPercent">0%</span>
                 </div>
-                <div class="progress-track">
+                <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <div class="progress-stats">
                     <div class="stat success"><span id="statSuccess">0</span> Sent</div>
                     <div class="stat failed"><span id="statFailed">0</span> Failed</div>
+                    <div class="stat batches hidden" id="statBatchesWrap"><span id="statBatches">0/0</span> Batches done</div>
+                </div>
+                <div class="row-actions tight-actions hidden" id="batchProgressActions">
+                    <button type="button" class="btn-secondary btn-small" id="pauseBatchBtn">Pause</button>
+                    <button type="button" class="btn-secondary btn-small" id="stopBatchBtn">Stop campaign</button>
                 </div>
                 <ul id="failedList" class="failed-list hidden"></ul>
             </div>
